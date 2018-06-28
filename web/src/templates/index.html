@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="blockchain,etheruem,bitcoin,neros,whitepaper,common knowledge base">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+
+  <body>
+    <header id="header"></header>
+    <main id="root"></main>
+    <footer id="footer"></footer>
+    <dialog id="dialogue"></dialog>
+    <script src="<%= htmlWebpackPlugin.options.react %>"></script>
+    <script type="text/javascript">
+      (function () {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('./service-worker.js')
+        }
+      })()
+    </script>
+  </body>
+
+</html>

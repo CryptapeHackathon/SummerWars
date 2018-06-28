@@ -1,0 +1,9 @@
+# Dependencies
+node_modules
+
+# Env
+.env
+
+*.log
+
+.vscode
