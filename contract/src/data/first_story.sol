@@ -4,6 +4,7 @@ import "./story.sol";
 import "../register.sol";
 import "./identity.sol";
 
+
 contract FirstStory is Story {
     function FirstStory() public {
         register = Register(msg.sender);
@@ -13,6 +14,8 @@ contract FirstStory is Story {
     bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
 
     function info(address _from) public view returns (bytes32[8]) {
+        // Just clear the warning
+        _from;
         return dialog;
     }
 

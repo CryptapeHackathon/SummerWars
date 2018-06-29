@@ -20,6 +20,11 @@ contract Register is Reg {
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         firstStoryAddr = new FirstStory();
+        fightAddr = newScene(this, "fight story", fightStoryAddr);
+        firstAddr = newScene(this, "first story", firstStoryAddr);
+        initFightStory(fightAddr);
+        initFirstStory(firstAddr);
+
         RegisterCreated(
             userOpAddr,
             sceneOpAddr,
@@ -38,7 +43,7 @@ contract Register is Reg {
         public 
         returns (bool)
     {
-        idAddr[_id] = new Identity(_id, _name);
+        idAddr[_id] = new Identity(_id, _name, firstAddr);
         IdNewed(idAddr[_id], _id, _name, msg.sender);
         return true;
     }
@@ -46,12 +51,38 @@ contract Register is Reg {
     /// @notice Register a new identity
     function newScene(
         address _owner,
-        string _name
+        string _name,
+        address _proxy
     )
         public 
+        returns (address sceneAddr)
+    {
+        sceneAddr = new Scene(_owner, _name, _proxy);
+        WorldInfo world = WorldInfo(worldInfoAddr);
+        world.addScene(sceneAddr);
+    }
+
+    /// @notice Init the first story scene
+    function initFirstStory(address _first)
+        private
         returns (bool)
     {
-        address sceneAddr = new Scene(_owner, _name);
+        SceneOp op = SceneOp(sceneOpAddr);        
+        op.setDescription("hello", _first);
+        op.setLocation(1, 2, _first);
+        op.setKind(1, _first);
+        return true;
+    }
+
+    /// @notice Init the fight story scene
+    function initFightStory(address _fight)
+        private
+        returns (bool)
+    {
+        SceneOp op = SceneOp(sceneOpAddr);        
+        op.setDescription("hello", _fight);
+        op.setLocation(3, 4, _fight);
+        op.setKind(2, _fight);
         return true;
     }
 }
