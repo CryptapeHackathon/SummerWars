@@ -40,13 +40,18 @@ const containers = [
   },
   {
     path: '/play',
-    exact: false,
+    exact: true,
     component: 'Play',
   },
   {
     path: '/start',
-    exact: false,
+    exact: true,
     component: 'GameStart',
+  },
+  {
+    path: '/prologue',
+    exact: true,
+    component: 'Prologue',
   },
 ]
 

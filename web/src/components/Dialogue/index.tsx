@@ -9,7 +9,9 @@ export default class Dialogue extends React.Component<DialogProps, any> {
   render () {
     const { isOpen, children } = this.props
     return createPortal(
-      <Dialog open={isOpen}>{children}</Dialog>,
+      <Dialog open={isOpen} maxWidth="md">
+        {children}
+      </Dialog>,
       document.getElementById('dialogue') as HTMLElement,
     )
   }
