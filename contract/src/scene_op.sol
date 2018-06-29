@@ -13,11 +13,12 @@ contract SceneOp {
     function set_description(string description) public {}
     function set_location(uint8 x, uint8 y) public {}
     function set_proxy(address proxy) public {}
+    function set_kind(uint8 kind) public {}
    
     // call proxy process function
     function process(address _to, uint256 decision) public {}
     
     // call proxy info function
-    function info() view returns (string) {}
+    function info() view returns (bytes32[8]) {}
 
 }

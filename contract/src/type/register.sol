@@ -8,12 +8,14 @@ contract Reg {
     address public userOpAddr;
     address public sceneOpAddr;
     address public worldInfoAddr;
+    address public fightStoryAddr;
 
     event RegisterCreated(
         address indexed _register,
-        address indexed _talk,
-        address indexed _fight,
-        address _worldInfo
+        address indexed _userOp,
+        address indexed _sceneOp,
+        address _worldInfo,
+        address _fightStory
     );
 
     event IdNewed(
