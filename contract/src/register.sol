@@ -9,6 +9,7 @@ import "./scene_op.sol";
 import "./data/fight_story.sol";
 import "./data/first_story.sol";
 
+
 /// @title Register: identity and scene
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract Register is Reg {
@@ -60,6 +61,8 @@ contract Register is Reg {
     {
         idAddr[_id] = new Identity(_id, _name, firstAddr);
         IdNewed(idAddr[_id], _id, _name, msg.sender);
+        WorldInfo world = WorldInfo(worldInfoAddr);
+        require(world.userEnter(firstAddr, _id));
         return true;
     }
 
