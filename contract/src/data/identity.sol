@@ -17,20 +17,6 @@ contract Identity {
     uint8 public job;
     address public proxy;
 
-    function set_proxy(address _proxy) public {
-        proxy = _proxy;
-    }
-
-    // call proxy process function
-    function process(address _to, uint256 decision) public {
-        Story(proxy).process(msg.sender, _to, decision);
-    }
-
-    // call proxy info function
-    function info() public view returns (bytes32[8] info) {
-        return Story(proxy).info(msg.sender);
-    }
-
     /// Save register's address
     function Identity(
         address _id,
@@ -107,5 +93,20 @@ contract Identity {
     {
         job = _job;  
         return true;
+    }
+
+    /// @notice Set proxy
+    function setProxy(address _proxy) public {
+        proxy = _proxy;
+    }
+
+    // @notice call proxy process function
+    function process(address _to, uint256 decision) public {
+        Story(proxy).process(msg.sender, _to, decision);
+    }
+
+    // call proxy info function
+    function info() public view returns (bytes32[8] info) {
+        return Story(proxy).info(msg.sender);
     }
 }

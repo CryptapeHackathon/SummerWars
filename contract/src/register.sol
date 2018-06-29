@@ -45,12 +45,13 @@ contract Register is Reg {
 
     /// @notice Register a new identity
     function newScene(
-        address _proxy
+        address _owner,
+        string _name
     )
         public 
         returns (bool)
     {
-        address sceneAddr = new Scene();
+        address sceneAddr = new Scene(_owner, _name);
         return true;
     }
 }
