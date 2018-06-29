@@ -20,8 +20,8 @@ contract Register is Reg {
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         firstStoryAddr = new FirstStory();
-        fightAddr = newScene(this, "fight story", fightStoryAddr);
-        firstAddr = newScene(this, "first story", firstStoryAddr);
+        fightAddr = newScene(this, "fight", fightStoryAddr);
+        firstAddr = newScene(this, "first", firstStoryAddr);
         initFightStory(fightAddr);
         initFirstStory(firstAddr);
 
@@ -68,7 +68,7 @@ contract Register is Reg {
         returns (bool)
     {
         SceneOp op = SceneOp(sceneOpAddr);        
-        op.setDescription("hello", _first);
+        op.setDescription("welcome to the Middle-earth, Please start your journey.", _first);
         op.setLocation(1, 2, _first);
         op.setKind(1, _first);
         return true;
@@ -80,7 +80,7 @@ contract Register is Reg {
         returns (bool)
     {
         SceneOp op = SceneOp(sceneOpAddr);        
-        op.setDescription("hello", _fight);
+        op.setDescription("Let's fight!", _fight);
         op.setLocation(3, 4, _fight);
         op.setKind(2, _fight);
         return true;
