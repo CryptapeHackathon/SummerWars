@@ -44,6 +44,8 @@ contract UserInterface {
    function weapon() view returns (uint256 id);
    function scene() view returns (address scene);
    function job() view returns (uint8 job);
+   // npc need proxy contract address point to story contract
+   function proxy() view returns (address proxy);
 
    function set_name(string name);
    function update_record(string name);
@@ -51,6 +53,12 @@ contract UserInterface {
    // leave old scene enter new scene
    function set_scene(address scene);
    function set_job(uint8 job);
+   
+   // call proxy process function
+   function process(address _to, uint256 decision);
+   
+   // call proxy info function
+   function info() view returns (string info);
 }
 ```
 #### 用户管理
