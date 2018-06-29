@@ -3,14 +3,13 @@ const config = require('../config');
 const log4js = require('log4js');
 
 // Use local server
-// const web3 = new Web3(new Web3.providers.HttpProvider(config.localServer));
+const web3 = new Web3(new Web3.providers.HttpProvider(config.localServer));
 // Use remote server
-const web3 = new Web3(new Web3.providers.HttpProvider(config.remoteServer));
+// const web3 = new Web3(new Web3.providers.HttpProvider(config.remoteServer));
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
-
-const sender = config.testAdmin;
+const sender = config.superAdmin;
 const quota = 999999999;
 const blockLimit = 100;
 
