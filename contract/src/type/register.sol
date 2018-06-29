@@ -33,7 +33,6 @@ contract Reg {
     event IdNewed(
         address indexed _idAddr,
         address indexed _id,
-        string _name,
         address _sender
     );
 

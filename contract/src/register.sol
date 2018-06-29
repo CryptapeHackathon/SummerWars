@@ -53,14 +53,13 @@ contract Register is Reg {
 
     /// @notice Register a new identity
     function newId(
-        address _id,
-        string _name
+        address _id
     )
         public 
         returns (bool)
     {
-        idAddr[_id] = new Identity(_id, _name, firstAddr);
-        IdNewed(idAddr[_id], _id, _name, msg.sender);
+        idAddr[_id] = new Identity(_id, firstAddr);
+        IdNewed(idAddr[_id], _id, msg.sender);
         WorldInfo world = WorldInfo(worldInfoAddr);
         require(world.userEnter(firstAddr, _id));
         return true;
