@@ -1,0 +1,26 @@
+{
+  "name": "party-building-test",
+  "version": "0.1.0",
+  "description": "Party building test using web3.js",
+  "main": "",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0"
+  },
+  "scripts": {
+    "test": "mocha test --recursive -t 60s; eslint test",
+    "lint": "eslint test",
+    "lint-fix": "eslint --fix test"
+  },
+  "repository": {},
+  "author": "Cryptape Technologies <contact@cryptape.com>",
+  "license": "GPL-3.0+",
+  "dependencies": {
+    "mocha": "^5.2.0",
+    "log4js": "^2.10.0",
+    "mochawesome": "^3.0.2",
+    "bignumber.js": "^7.2.1",
+    "web3": "https://github.com/cryptape/web3.js#develop"
+  }
+}
