@@ -2,4 +2,6 @@ export interface Account {
   privKey: string
   address: string
 }
-export default Account
+export interface User {
+  addr: string
+}

@@ -102,7 +102,7 @@ class GameStart extends React.Component<
     // })
   }
   public componentDidMount () {
-    // window.web3 = this.props.web3
+    window.web3 = this.props.web3
   }
 
   private handleInput = (key: string) => e => {

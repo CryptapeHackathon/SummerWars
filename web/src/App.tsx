@@ -26,7 +26,32 @@ const theme = createMuiTheme({
 })
 
 const history = createBrowserHistory()
+export interface WithRoute {
+  history: typeof history
+}
 
+const switchedContainers = [
+  {
+    path: '/',
+    exact: true,
+    component: 'Homepage',
+  },
+  // {
+  //   path: '/play',
+  //   exact: true,
+  //   component: 'Play',
+  // },
+  {
+    path: '/start',
+    exact: true,
+    component: 'GameStart',
+  },
+  {
+    path: '/',
+    exact: false,
+    component: 'UserStatus',
+  },
+]
 const containers = [
   // {
   //   path: '/',
@@ -34,24 +59,14 @@ const containers = [
   //   component: 'Header',
   // },
   {
-    path: '/',
-    exact: true,
-    component: 'Homepage',
-  },
-  {
-    path: '/play',
-    exact: true,
-    component: 'Play',
-  },
-  {
-    path: '/start',
-    exact: true,
-    component: 'GameStart',
-  },
-  {
     path: '/prologue',
     exact: true,
     component: 'Prologue',
+  },
+  {
+    path: '/map',
+    exact: true,
+    component: 'Map',
   },
 ]
 
@@ -65,11 +80,24 @@ const routes = containers.map(container => (
   />
 ))
 
+const switchRoutes = switchedContainers.map(container => (
+  <Route
+    {...container}
+    key={container.component}
+    component={Loadable({
+      loader: () => import(`./containers/${container.component}`),
+    })}
+  />
+))
+
 const themedApp = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Router>
-      <React.Fragment>{routes}</React.Fragment>
+      <React.Fragment>
+        <Switch>{switchRoutes}</Switch>
+        {routes}
+      </React.Fragment>
     </Router>
   </MuiThemeProvider>
 )
