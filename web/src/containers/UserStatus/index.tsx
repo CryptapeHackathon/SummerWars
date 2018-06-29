@@ -23,11 +23,17 @@ const initState = {
     },
   ] as User[],
 }
-interface UserStatusProps {}
-class UserStatus extends React.Component<
-  RouteComponentProps<UserStatusProps>,
-  any
-  > {
+/* eslint-disable */
+interface UserStatusProps {
+  history: any
+  // location: any
+  // match: any
+  users: string[]
+  positionName: string
+  fight: Function
+}
+/* eslint-enable */
+class UserStatus extends React.Component<UserStatusProps, any> {
   state = initState
   componentWillMount () {
     this.checkIdentityContract()
@@ -62,23 +68,24 @@ class UserStatus extends React.Component<
       panelOn: !state.panelOn,
     }))
   }
-  private UserList = () => (
+  private UserList = users => (
     <List>
-      {this.state.users.map(user => (
-        <ListItem key={user.addr}>
-          <ListItemText primary={user.addr} />
+      {users.map(user => (
+        <ListItem key={user} onClick={() => this.props.fight(user, 0)}>
+          <ListItemText primary={user} />
         </ListItem>
       ))}
     </List>
   )
   public render () {
-    const { position, panelOn, name } = this.state
+    const { panelOn, name } = this.state
+    const { positionName, users } = this.props
     return (
       <React.Fragment>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              Position: {position}
+              Position: {positionName}
             </Typography>
             <Divider />
             <Typography variant="title" color="inherit">
@@ -89,7 +96,7 @@ class UserStatus extends React.Component<
           </Toolbar>
         </AppBar>
         <RightSideDrawer panelOn={panelOn} togglePanel={this.togglePanel}>
-          {this.UserList()}
+          {this.UserList(users)}
         </RightSideDrawer>
       </React.Fragment>
     )

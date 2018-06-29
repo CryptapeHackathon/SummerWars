@@ -46,11 +46,11 @@ const switchedContainers = [
     exact: true,
     component: 'GameStart',
   },
-  {
-    path: '/',
-    exact: false,
-    component: 'UserStatus',
-  },
+  // {
+  //   path: '/',
+  //   exact: false,
+  //   component: 'UserStatus',
+  // },
 ]
 const containers = [
   {

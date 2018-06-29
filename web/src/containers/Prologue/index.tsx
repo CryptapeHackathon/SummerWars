@@ -10,6 +10,7 @@ import {
   Icon,
 } from '@material-ui/core'
 
+import UserStatus from '../UserStatus'
 import { withWeb3, WithWeb3 } from '../../contexts/web3'
 import sceneAbi from '../../contracts/scene'
 import userOpAbi from '../../contracts/userOp'
@@ -33,6 +34,7 @@ const initDrama = {
   desc: '',
   step: 0,
   users: [],
+  type: Scene.NONE,
 }
 
 const styles = require('./prologue.scss')
@@ -229,17 +231,19 @@ class Prologue extends React.Component<any, any> {
     return (
       <div
         className={commonStyles.bg}
-        style={{
-          backgroundImage: `url(${bg})`,
-        }}
+        style={{ backgroundImage: `url(${bg})` }}
       >
-        {name}
-        {this.userList(users)}
+        <UserStatus
+          history={this.props.history}
+          // location={this.props.location}
+          // match={this.props.match}
+          positionName={name}
+          users={users}
+          fight={this.fight}
+        />
         <div
           className={styles.desc}
-          style={{
-            display: `${step === 0 ? 'block' : 'none'}`,
-          }}
+          style={{ display: `${step === 0 ? 'block' : 'none'}` }}
           onClick={this.nextMessage}
         >
           {' '}
@@ -247,9 +251,7 @@ class Prologue extends React.Component<any, any> {
         </div>
         <div
           className={styles.messages}
-          style={{
-            display: `${step === 1 ? 'block' : 'none'}`,
-          }}
+          style={{ display: `${step === 1 ? 'block' : 'none'}` }}
         >
           {messages.map((msg, idx) => (
             <div key={msg} onClick={this.handleMsgClick(idx)}>
