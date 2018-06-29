@@ -12,7 +12,7 @@ contract FirstStory is Story {
     Register register;
     bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
 
-    function info(address _from) public view returns (bytes32[8] info) {
+    function info(address _from) public view returns (bytes32[8]) {
         return dialog;
     }
 

@@ -8,7 +8,6 @@ import "./data/identity.sol";
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract UserOp {
     Register register;
-    
 
     /// Save register's address
     function UserOP() public {
@@ -23,12 +22,6 @@ contract UserOp {
         Identity id = Identity(register.idAddr(msg.sender));
         id.setName(_name, msg.sender);
     }
-
-    // call proxy info function
-    function info() view returns (bytes32[8] info) {}
-
-    // call proxy process function
-    function process(address _to, uint256 decision) {}
 
     /// @notice Update record
     function updateRecord(uint _record)
@@ -62,4 +55,10 @@ contract UserOp {
         Identity id = Identity(register.idAddr(msg.sender));
         id.setJob(_job, msg.sender);
     }
+
+    // call proxy process function
+    function process(address _to, uint256 decision) {}
+
+    // call proxy info function
+    function info() view returns (bytes32[8]) {}
 }
