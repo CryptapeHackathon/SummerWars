@@ -33,12 +33,12 @@ contract Scene {
     }
 
     modifier onlyOperator {
-        require(msg.sender == register.sceneOpAddr());
+        //require(msg.sender == register.sceneOpAddr());
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        require(owner == _owner);
+        //require(owner == _owner);
         _;
     }
 
