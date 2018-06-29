@@ -9,6 +9,7 @@ contract Reg {
     address public sceneOpAddr;
     address public worldInfoAddr;
     address public fightStoryAddr;
+    address public firstStoryAddr;
 
     mapping (address => address) public idAddr;
 
@@ -17,6 +18,7 @@ contract Reg {
         address indexed _sceneOp,
         address indexed _worldInfo,
         address _fightStory,
+        address _firstStory,
         address _register
     );
 
