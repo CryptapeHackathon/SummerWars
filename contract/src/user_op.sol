@@ -56,6 +56,14 @@ contract UserOp {
         id.setJob(_job, msg.sender);
     }
 
+    function setProxy(address _proxy)
+        public
+        returns (bool)
+    {
+        Identity id = Identity(register.idAddr(msg.sender));
+        id.setProxy(_proxy);
+    }
+
     // call proxy process function
     function process(address _to, uint256 _decision) public pure { _to; _decision; }
 
