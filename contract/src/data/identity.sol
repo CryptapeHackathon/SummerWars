@@ -109,8 +109,13 @@ contract Identity {
     }
 
     // @notice call proxy process function
-    function process(address _to, uint256 decision) public {
-        Story(proxy).process(msg.sender, _to, decision);
+    function process(address _to, uint256 decision, address _owner)
+        public
+        onlyOperator
+        onlyOwner(_owner)
+        returns (bool)
+    {
+        Story(proxy).process(_owner, _to, decision);
     }
 
     // call proxy info function

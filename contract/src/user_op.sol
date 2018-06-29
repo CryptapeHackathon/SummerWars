@@ -7,58 +7,60 @@ import "./data/identity.sol";
 /// @title User operate
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract UserOp {
-    Register register;
-
-    /// Save register's address
-    function UserOP() public {
-        register = Register(msg.sender);
-    }
-
     /// @notice Set Name to the identity
-    function setName(string _name)
+    function setName(string _name, address _id)
         public
         returns (bool)
     {
-        Identity id = Identity(register.idAddr(msg.sender));
+        Identity id = Identity(_id);
         id.setName(_name, msg.sender);
+        return true;
     }
 
     /// @notice Update record
-    function updateRecord(uint _record)
+    function updateRecord(uint _record, address _id)
         public
         returns (bool)
     {
-        Identity id = Identity(register.idAddr(msg.sender));
+        Identity id = Identity(_id);
         id.updateRecord(_record, msg.sender);
+        return true;
     }
 
-    function setWeapon(uint256 _id)
+    function setWeapon(uint256 _weaponId, address _id)
         public
         returns (bool)
     {
-        Identity id = Identity(register.idAddr(msg.sender));
-        id.setWeapon(_id, msg.sender);
+        Identity id = Identity(_id);
+        id.setWeapon(_weaponId, msg.sender);
+        return true;
     }
     // leave old scene enter new scene
-    function setScene(address _scene)
+    function setScene(address _scene, address _id)
         public
         returns (bool)
     {
-        Identity id = Identity(register.idAddr(msg.sender));
+        Identity id = Identity(_id);
         id.setScene(_scene, msg.sender);
+        return true;
     }
 
-    function setJob(uint8 _job)
+    function setJob(uint8 _job, address _id)
         public
         returns (bool)
     {
-        Identity id = Identity(register.idAddr(msg.sender));
+        Identity id = Identity(_id);
         id.setJob(_job, msg.sender);
+        return true;
     }
 
     // call proxy process function
-    function process(address _to, uint256 _decision) public pure { _to; _decision; }
-
-    // call proxy info function
-    function info() public pure returns (bytes32[8]) {}
+    function process(address _to, uint256 _decision, address _id)
+        public
+        returns (bool)
+    {
+        Identity id = Identity(_id);
+        id.process(_to, _decision, msg.sender);
+        return true;
+    }
 }
