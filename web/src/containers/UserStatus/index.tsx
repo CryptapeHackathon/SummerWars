@@ -29,9 +29,33 @@ class UserStatus extends React.Component<
   any
   > {
   state = initState
+  componentWillMount () {
+    this.checkIdentityContract()
+  }
+  public componentDidMount () {
+    // setInterval(() => {
+    //   this.getIdentityInfo()
+    // }, 1000)
+  }
+
+  private getIdentityInfo = () => {
+    if (window.identityContract) {
+      window.identityContract.methods
+        .name()
+        .call()
+        .then(name => {
+          this.setState({ name })
+        })
+    }
+  }
+  private checkIdentityContract = () => {
+    // check if identity has been load
+    if (window.identityContract) return
+    this.props.history.push('/start')
+  }
 
   private navToMap = e => {
-    this.props.history.push('/map')
+    this.props.history.push('/maps')
   }
   private togglePanel = e => {
     this.setState(state => ({
@@ -51,7 +75,7 @@ class UserStatus extends React.Component<
     const { position, panelOn, name } = this.state
     return (
       <React.Fragment>
-        <AppBar>
+        <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit">
               Position: {position}

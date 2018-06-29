@@ -10,4 +10,11 @@
   position: relative;
   z-index: 1;
   cursor: pointer;
+  span {
+    position: absolute;
+    top: 100%;
+    color: #FFF;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

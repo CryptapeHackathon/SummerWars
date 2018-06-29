@@ -20,3 +20,15 @@ declare module 'React' {
     calculateChangedBits?: (prev: T, next: T) => number,
   ): Context<T>
 }
+
+declare global {
+  interface Window {
+    account: any
+    userContract: any
+    sceneContract: any
+    identityContract: any
+    worldContract: any
+    sceneOpContract: any
+    userOpContract: any
+  }
+}

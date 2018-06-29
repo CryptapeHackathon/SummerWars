@@ -53,18 +53,13 @@ const switchedContainers = [
   },
 ]
 const containers = [
-  // {
-  //   path: '/',
-  //   exact: false,
-  //   component: 'Header',
-  // },
   {
-    path: '/prologue',
-    exact: true,
+    path: '/map/:mapId',
+    exect: true,
     component: 'Prologue',
   },
   {
-    path: '/map',
+    path: '/maps',
     exact: true,
     component: 'Map',
   },

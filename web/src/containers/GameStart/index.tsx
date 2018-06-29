@@ -12,9 +12,19 @@ import {
   TextField,
   Tabs,
   Tab,
+  LinearProgress,
 } from '@material-ui/core'
 import { withWeb3, WithWeb3 } from '../../contexts/web3'
-// import { Account } from '../../typings'
+import registerAbi from '../../contracts/register'
+import identityAbi from '../../contracts/identity'
+import worldAbi from '../../contracts/world'
+import sceneOpAbi from '../../contracts/sceneOp'
+import userOpAbi from '../../contracts/userOp'
+import contractInfo from '../../contracts'
+import getTxReceipt from '../../utils/getTxRecepts'
+
+// import inputTransactionFormatter from '../../utils/inputTransactionFormatter'
+import { Account } from '../../typings'
 
 /**
  * 1. Check if logged
@@ -58,10 +68,15 @@ enum HelpText {
 }
 
 const walletKey = 'web3js_wallet'
+const ACCOUNT_NOT_EXIST = '0x0000000000000000000000000000000000000000'
 
-interface GameStartProps extends WithWeb3 {}
+/* eslint-disable no-restricted-globals */
+interface GameStartProps extends WithWeb3 {
+  history: any
+}
+/* eslint-enable no-restricted-globals */
 const initGameStartState = {
-  selectedAccount: '',
+  selectedAccount: {} as Account,
   pwd: '',
   // accounts: [] as Account[],
   wallet: {} as any,
@@ -70,6 +85,7 @@ const initGameStartState = {
   tabIndex: 0, // 0 => login, 1 => unlock, 2 => save, 3 => import
   helperText: HelpText.NONE,
   importing: '',
+  loading: false,
 }
 
 class GameStart extends React.Component<
@@ -77,34 +93,28 @@ class GameStart extends React.Component<
   typeof initGameStartState
   > {
   state = initGameStartState
-  // componentWillMount() {
-  //   this.props.web3.eth.accounts.wallet.load()
-  // }
   componentWillMount () {
-    // check if logged
-    // if logged, to scene
-
-    // if not logged, show dialog
-    // check if wallet cached
-    // if cached
     if (this.checkCachedWallet()) {
       this.setState({
         walletStatus: WalletStatus.CACHED,
       })
     }
-    // enter pwd to load cached wallet
-    // if no cached
-    // create wallet
-
-    // this.setState({
-
-    //   hasCachedWallet: this.checkCachedWallet(),
-    // })
   }
   public componentDidMount () {
-    window.web3 = this.props.web3
+    this.initUserContract()
+    this.initWorldContract()
+    // this.identityContract()
+    this.initSceneOpContract()
+    this.initUserOpContract()
   }
 
+  private getIdentity = identityAddr => {
+    window.identityContract = new this.props.web3.eth.Contract(
+      identityAbi,
+      identityAddr,
+    )
+    return window.identityContract
+  }
   private handleInput = (key: string) => e => {
     const { value } = e.currentTarget
     this.setState(state =>
@@ -123,7 +133,7 @@ class GameStart extends React.Component<
   private checkCachedAccount = () => {}
   private checkCachedWallet = () => !!window.localStorage.getItem(walletKey)
   private loadWallet = () => {
-    this.setState({ helperText: HelpText.UNLOCKING })
+    this.setState({ helperText: HelpText.UNLOCKING, loading: true })
     const wallet = this.props.web3.eth.accounts.wallet.load(
       this.state.pwd,
       walletKey,
@@ -133,19 +143,21 @@ class GameStart extends React.Component<
     } else {
       this.setState({ helperText: HelpText.NO_WALLET_FOUND })
     }
+    this.setState({ loading: false })
   }
   private saveWallet = () => {
-    this.setState({ helperText: HelpText.SAVING })
+    this.setState({ helperText: HelpText.SAVING, loading: true })
     setTimeout(() => {
       this.props.web3.eth.accounts.wallet.save(this.state.pwd)
-      this.setState({ helperText: HelpText.SUCCESS })
+      this.setState({ helperText: HelpText.SUCCESS, loading: false })
     }, 0)
     // show success
   }
   private createWallet = () => {
+    this.setState({ loading: true })
     const rnd = this.props.web3.utils.randomHex(32)
     const wallet = this.props.web3.eth.accounts.wallet.create(1, rnd)
-    this.setState({ wallet })
+    this.setState({ wallet, loading: false })
   }
   private importWallet = () => {
     this.setState({ helperText: HelpText.IMPORTING })
@@ -153,7 +165,7 @@ class GameStart extends React.Component<
     this.setState({ helperText: HelpText.SUCCESS, tabIndex: 1 })
   }
 
-  private handleClick = (key: LoginAction) => e => {
+  private handleClick = (key: any) => e => {
     switch (key) {
       case LoginAction.CREATE: {
         return this.createWallet()
@@ -171,7 +183,7 @@ class GameStart extends React.Component<
         return this.importWallet()
       }
       default: {
-        if (key.startsWith('0x')) {
+        if ((key as any).address.startsWith('0x')) {
           this.setState({ selectedAccount: key })
         }
         return 'none'
@@ -181,11 +193,89 @@ class GameStart extends React.Component<
   private handleTabChange = (e, tabIndex) => {
     this.setState({ tabIndex })
   }
-  private login = () => {
-    // set default account
-    // this.props.web3.eth.accounts.wallet.save(this.state.pwd)
-    this.props.web3.eth.defaultAccount = this.state.selectedAccount
-    console.log('login')
+  private login = async () => {
+    let identifyAddr = ''
+    this.setState({ loading: true })
+    // set selected account
+    window.account = this.state.selectedAccount
+    const { address } = this.state.selectedAccount
+    identifyAddr = await this.checkAddr(address)
+    if (identifyAddr === ACCOUNT_NOT_EXIST) {
+      const createRes: any = await this.createUser(address, 'test name')
+      const { topics } = createRes.result.logs[0]
+      const [sig, contractAddr, publicAddr] = topics
+      identifyAddr = contractAddr
+    }
+    identifyAddr =
+      `${identifyAddr}`.length === 42
+        ? identifyAddr
+        : `0x${identifyAddr.slice(26)}`
+    const contract = this.getIdentity(identifyAddr)
+    contract.methods
+      .scene()
+      .call()
+      .then(mapId => this.props.history.push(`/map/${mapId}`))
+
+    this.setState({ loading: false })
+  }
+  public createUser = async (addr, name) => {
+    // gen function signature
+    const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(
+      registerAbi[9],
+    )
+
+    // gen call data
+    const params = this.props.web3.eth.abi.encodeParameters(
+      ['address', 'string'],
+      [addr, name],
+    )
+    const data = fnSig + params.slice(2)
+
+    // gen tx
+    /* eslint-disable */
+    const tx = {
+      data,
+      to: window.userContract._address,
+      from: window.account.address,
+      privkey: window.account.privateKey,
+      quota: 99999999,
+      chainId: process.env.CHAIN_ID,
+      nonce: 19999,
+    }
+    /* eslint-enable */
+    const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    if (sendTxResult.result.hash) {
+      return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
+    }
+    return console.error('Send Transaction Failed')
+  }
+  public checkAddr = addr => {
+    console.log('check addr')
+    return window.userContract.methods.idAddr(addr).call()
+  }
+  public initUserOpContract = async () => {
+    const userOpAddr = await window.userContract.methods.userOpAddr().call()
+    window.userOpContract = new this.props.web3.eth.Contract(
+      userOpAbi,
+      userOpAddr,
+    )
+  }
+  private initWorldContract = async () => {
+    const worldAddr = await window.userContract.methods.worldInfoAddr().call()
+    window.worldContract = new this.props.web3.eth.Contract(worldAbi, worldAddr)
+  }
+  public initSceneOpContract = async () => {
+    const sceneOpAddr = await window.userContract.methods.sceneOpAddr().call()
+    window.sceneOpContract = new this.props.web3.eth.Contract(
+      sceneOpAbi,
+      sceneOpAddr,
+    )
+  }
+  public initUserContract = () => {
+    window.userContract = new this.props.web3.eth.Contract(
+      registerAbi,
+      contractInfo.registerAbi.addr,
+    )
   }
   private PWDTextField = () => (
     <React.Fragment>
@@ -206,16 +296,19 @@ class GameStart extends React.Component<
       {accounts.map(account => (
         <ListItem
           key={account.address}
-          onClick={this.handleClick(account.address)}
+          onClick={this.handleClick(account)}
           classes={{
             root: `${styles.account} ${
-              this.state.selectedAccount === account.address
+              this.state.selectedAccount.address === account.address
                 ? styles.selected
                 : ''
             }`,
           }}
         >
-          <ListItemText classes={{primary: styles.accountPrimary}}primary={account.address} />
+          <ListItemText
+            classes={{ primary: styles.accountPrimary }}
+            primary={account.address}
+          />
         </ListItem>
       ))}
     </List>
@@ -260,7 +353,7 @@ class GameStart extends React.Component<
       // login
       return (
         <React.Fragment>
-          {selectedAccount ? (
+          {selectedAccount.address ? (
             <Button onClick={this.handleClick(LoginAction.LOGIN)}>Login</Button>
           ) : null}
           <Button onClick={this.handleClick(LoginAction.CREATE)}>Create</Button>
@@ -293,8 +386,10 @@ class GameStart extends React.Component<
     }
     return null
   }
+  private userContract: any
+  private identityContract: any
   public render () {
-    const { tabIndex } = this.state
+    const { tabIndex, loading } = this.state
     const accounts = [
       ...new Set(
         Object.keys(this.state.wallet)
@@ -313,6 +408,7 @@ class GameStart extends React.Component<
           }}
         />
         <Dialogue isOpen>
+          {loading ? <LinearProgress /> : null}
           <DialogContent>
             <Tabs value={tabIndex} onChange={this.handleTabChange}>
               <Tab value={0} label="Login" />

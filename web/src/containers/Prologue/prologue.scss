@@ -1,0 +1,29 @@
+@mixin text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 3rem;
+  padding: 25px 25px 25px 250px;
+  color: #fff;
+  transition: 0.4s linear;
+}
+
+.desc {
+  @include text;
+}
+
+.messages {
+  @include text;
+  &>div {
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      &:first-child {
+        cursor: pointer;
+        background: none;
+      }
+    }
+    cursor: pointer;
+  }
+}

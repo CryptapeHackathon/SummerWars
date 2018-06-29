@@ -44,6 +44,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
+        CHAIN_ID: JSON.stringify(1),
         SERVER: JSON.stringify(process.env.SERVER),
         APP_NAME: JSON.stringify(process.env.APP_NAME),
       },
