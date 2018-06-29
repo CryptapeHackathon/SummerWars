@@ -7,7 +7,7 @@ import "./data/world_info.sol";
 import "./user_op.sol";
 import "./scene_op.sol";
 import "./data/fight_story.sol";
-
+import "./data/first_story.sol";
 
 /// @title Register: identity and scene
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
@@ -19,11 +19,13 @@ contract Register is Reg {
         sceneOpAddr = new SceneOp();
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
+        firstStoryAddr = new FirstStory();
         RegisterCreated(
             userOpAddr,
             sceneOpAddr,
             worldInfoAddr,
             fightStoryAddr,
+            firstStoryAddr,
             msg.sender
         );
     }
