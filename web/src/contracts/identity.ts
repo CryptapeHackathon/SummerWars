@@ -1,13 +1,4 @@
-const identitfyAbi = [
-  {
-    constant: true,
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', type: 'string' }],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
-  },
+export default [
   {
     constant: false,
     inputs: [
@@ -50,6 +41,19 @@ const identitfyAbi = [
   {
     constant: false,
     inputs: [
+      { name: '_to', type: 'address' },
+      { name: 'decision', type: 'uint256' },
+      { name: '_owner', type: 'address' },
+    ],
+    name: 'process',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
       { name: '_scene', type: 'address' },
       { name: '_owner', type: 'address' },
     ],
@@ -75,18 +79,6 @@ const identitfyAbi = [
     outputs: [{ name: '', type: 'uint8' }],
     payable: false,
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    constant: false,
-    inputs: [
-      { name: '_to', type: 'address' },
-      { name: 'decision', type: 'uint256' },
-    ],
-    name: 'process',
-    outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -123,18 +115,6 @@ const identitfyAbi = [
     type: 'function',
   },
   {
-    constant: false,
-    inputs: [
-      { name: '_name', type: 'string' },
-      { name: '_owner', type: 'address' },
-    ],
-    name: 'setName',
-    outputs: [{ name: '', type: 'bool' }],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     constant: true,
     inputs: [],
     name: 'proxy',
@@ -146,7 +126,6 @@ const identitfyAbi = [
   {
     inputs: [
       { name: '_id', type: 'address' },
-      { name: '_name', type: 'string' },
       { name: '_scene', type: 'address' },
     ],
     payable: false,
@@ -154,4 +133,3 @@ const identitfyAbi = [
     type: 'constructor',
   },
 ]
-export default identitfyAbi

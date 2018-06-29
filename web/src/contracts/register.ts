@@ -1,4 +1,4 @@
-const registerAbi = [
+export default [
   {
     constant: true,
     inputs: [{ name: '', type: 'address' }],
@@ -6,6 +6,15 @@ const registerAbi = [
     outputs: [{ name: '', type: 'address' }],
     payable: false,
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: 'init_scenes',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -76,24 +85,21 @@ const registerAbi = [
     type: 'function',
   },
   {
+    constant: false,
+    inputs: [{ name: '_id', type: 'address' }],
+    name: 'newId',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     constant: true,
     inputs: [],
     name: 'firstAddr',
     outputs: [{ name: '', type: 'address' }],
     payable: false,
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    constant: false,
-    inputs: [
-      { name: '_id', type: 'address' },
-      { name: '_name', type: 'string' },
-    ],
-    name: 'newId',
-    outputs: [{ name: '', type: 'bool' }],
-    payable: false,
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -118,9 +124,17 @@ const registerAbi = [
   {
     anonymous: false,
     inputs: [
+      { indexed: true, name: '_fightAddr', type: 'address' },
+      { indexed: true, name: '_firstAddr', type: 'address' },
+    ],
+    name: 'InitScene',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
       { indexed: true, name: '_idAddr', type: 'address' },
       { indexed: true, name: '_id', type: 'address' },
-      { indexed: false, name: '_name', type: 'string' },
       { indexed: false, name: '_sender', type: 'address' },
     ],
     name: 'IdNewed',
@@ -136,4 +150,3 @@ const registerAbi = [
     type: 'event',
   },
 ]
-export default registerAbi

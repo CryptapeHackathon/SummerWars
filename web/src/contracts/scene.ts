@@ -1,4 +1,4 @@
-const sceneAbi = [
+export default [
   {
     constant: true,
     inputs: [],
@@ -147,4 +147,3 @@ const sceneAbi = [
     type: 'constructor',
   },
 ]
-export default sceneAbi

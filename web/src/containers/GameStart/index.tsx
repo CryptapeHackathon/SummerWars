@@ -14,6 +14,8 @@ import {
   Tab,
   LinearProgress,
 } from '@material-ui/core'
+// import * as CitaWeb3 from 'web3'
+// const CitaWeb3 = require('web3')
 import { withWeb3, WithWeb3 } from '../../contexts/web3'
 import registerAbi from '../../contracts/register'
 import identityAbi from '../../contracts/identity'
@@ -22,6 +24,7 @@ import sceneOpAbi from '../../contracts/sceneOp'
 import userOpAbi from '../../contracts/userOp'
 import contractInfo from '../../contracts'
 import getTxReceipt from '../../utils/getTxRecepts'
+// import sign from '../../utils/sign'
 
 // import inputTransactionFormatter from '../../utils/inputTransactionFormatter'
 import { Account } from '../../typings'
@@ -101,9 +104,12 @@ class GameStart extends React.Component<
     }
   }
   public componentDidMount () {
+    window.web3 = this.props.web3
+    // window.citaWeb3 = new CitaWeb3(
+    //   new CitaWeb3.providers.HttpProvider(process.env.SERVER),
+    // )
     this.initUserContract()
     this.initWorldContract()
-    // this.identityContract()
     this.initSceneOpContract()
     this.initUserOpContract()
   }
@@ -194,41 +200,53 @@ class GameStart extends React.Component<
     this.setState({ tabIndex })
   }
   private login = async () => {
-    let identifyAddr = ''
+    let identityAddr = ''
     this.setState({ loading: true })
     // set selected account
     window.account = this.state.selectedAccount
     const { address } = this.state.selectedAccount
-    identifyAddr = await this.checkAddr(address)
-    if (identifyAddr === ACCOUNT_NOT_EXIST) {
-      const createRes: any = await this.createUser(address, 'test name')
+    identityAddr = await this.checkAddr(address)
+    console.log('identityAddr')
+    console.log(identityAddr)
+    if (identityAddr === ACCOUNT_NOT_EXIST) {
+      const createRes: any = await this.createUser(address)
       const { topics } = createRes.result.logs[0]
       const [sig, contractAddr, publicAddr] = topics
-      identifyAddr = contractAddr
+      console.log('account address')
+      console.log(window.account.address)
+      console.log('public address')
+      console.log(publicAddr)
+      identityAddr = contractAddr
     }
-    identifyAddr =
-      `${identifyAddr}`.length === 42
-        ? identifyAddr
-        : `0x${identifyAddr.slice(26)}`
-    const contract = this.getIdentity(identifyAddr)
+    identityAddr =
+      `${identityAddr}`.length === 42
+        ? identityAddr
+        : `0x${identityAddr.slice(26)}`
+    window.identityAddr = identityAddr
+    const contract = this.getIdentity(identityAddr)
     contract.methods
       .scene()
       .call()
-      .then(mapId => this.props.history.push(`/map/${mapId}`))
+      .then(mapId => {
+        console.log(`goto${mapId}`)
+        this.props.history.push(`/map/${mapId}`)
+      })
 
     this.setState({ loading: false })
   }
-  public createUser = async (addr, name) => {
-    // gen function signature
+  public createUser = async addr => {
+    console.log('create user')
+    // NOTICE: GEN FUNCTION SIGNATURE
+    // nervos web3
+    // register.newId
     const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(
       registerAbi[9],
     )
+    console.log('fnsig')
+    console.log(fnSig)
 
     // gen call data
-    const params = this.props.web3.eth.abi.encodeParameters(
-      ['address', 'string'],
-      [addr, name],
-    )
+    const params = this.props.web3.eth.abi.encodeParameters(['address'], [addr])
     const data = fnSig + params.slice(2)
 
     // gen tx
@@ -241,9 +259,14 @@ class GameStart extends React.Component<
       quota: 99999999,
       chainId: process.env.CHAIN_ID,
       nonce: 19999,
+      // value: 100,
     }
     /* eslint-enable */
+    // const signedData = sign(tx)
+    // cosnole.log('send')
     const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    // const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(signedData)
+    // console.log('create id: ' + sendTxResult)
     if (sendTxResult.result.hash) {
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
     }

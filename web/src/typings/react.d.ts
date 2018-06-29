@@ -30,5 +30,8 @@ declare global {
     worldContract: any
     sceneOpContract: any
     userOpContract: any
+    citaWeb3: any
+    web3: any
+    identityAddr: string
   }
 }

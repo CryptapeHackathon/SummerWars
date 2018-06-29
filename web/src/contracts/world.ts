@@ -1,4 +1,4 @@
-const worldAbi = [
+export default [
   {
     constant: true,
     inputs: [{ name: '', type: 'uint256' }],
@@ -66,4 +66,3 @@ const worldAbi = [
     type: 'constructor',
   },
 ]
-export default worldAbi

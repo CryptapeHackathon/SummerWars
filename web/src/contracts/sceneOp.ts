@@ -1,4 +1,4 @@
-const sceneOpAbi = [
+export default [
   {
     constant: false,
     inputs: [
@@ -74,4 +74,3 @@ const sceneOpAbi = [
     type: 'function',
   },
 ]
-export default sceneOpAbi

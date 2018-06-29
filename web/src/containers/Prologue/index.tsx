@@ -15,10 +15,14 @@ import { withWeb3, WithWeb3 } from '../../contexts/web3'
 import sceneAbi from '../../contracts/scene'
 import userOpAbi from '../../contracts/userOp'
 import sceneOpAbi from '../../contracts/sceneOp'
+import identityAbi from '../../contracts/identity'
 import getTxReceipt from '../../utils/getTxRecepts'
 
+// const formatter = require('cita-web3/lib/web3/formatters')
+
 const commonStyles = require('../../styles/common.scss')
-const bg = require('../../images/sauroDefeated.jpg')
+const firstBg = require('../../images/first.jpg')
+const fightBg = require('../../images/fight.gif')
 
 enum Scene {
   NONE,
@@ -35,6 +39,7 @@ const initDrama = {
   step: 0,
   users: [],
   type: Scene.NONE,
+  battleOn: false,
 }
 
 const styles = require('./prologue.scss')
@@ -55,12 +60,19 @@ class Prologue extends React.Component<any, any> {
     this.setScene()
   }
   private setScene = async () => {
-    const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(userOpAbi[6])
+    // userOp.setScene
+    // const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(userOpAbi[2])
+    const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(
+      identityAbi[5],
+    )
 
     // gen call data
+    console.log('test')
+    console.log(this.state.mapId)
+    console.log(window.identityAddr)
     const params = this.props.web3.eth.abi.encodeParameters(
-      ['address'],
-      [this.state.mapId],
+      ['address', 'address'],
+      [this.state.mapId, window.identityAddr],
     )
     const data = fnSig + params.slice(2)
 
@@ -115,7 +127,7 @@ class Prologue extends React.Component<any, any> {
       .then(msgs => {
         const messages = [
           ...new Set(msgs.map(msg => web3.utils.hexToAscii(msg))),
-        ]
+        ].filter(msg => msg)
         this.setState({ messages })
       })
   }
@@ -131,6 +143,7 @@ class Prologue extends React.Component<any, any> {
     const decision = idx - 1
     if (decision < 0) return
 
+    // sceneOp.process
     const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(sceneOpAbi[0])
 
     // gen call data
@@ -171,14 +184,13 @@ class Prologue extends React.Component<any, any> {
       .getUsers(this.state.mapId)
       .call()
       .then(users => {
-        users.push(
-          '0x6e65656420776561706f6e3f0000000000000000000000000000000000000000',
-        )
+        users.push('0xb469719c7C04563ec17dFa9a34Da4FC0dcce002B')
         this.setState({ users })
       })
   }
 
   private fight = async (userAddr, decision) => {
+    // sceneOp.process
     const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(sceneOpAbi[0])
 
     // gen call data
@@ -200,6 +212,9 @@ class Prologue extends React.Component<any, any> {
       chainId: process.env.CHAIN_ID,
       nonce: 19999,
     }
+    // show battle
+    this.setState({ battleOn: true })
+    // show battle
     /* eslint-enable */
     const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
     if (sendTxResult.result.hash) {
@@ -231,12 +246,12 @@ class Prologue extends React.Component<any, any> {
     return (
       <div
         className={commonStyles.bg}
-        style={{ backgroundImage: `url(${bg})` }}
+        style={{
+          backgroundImage: `url(${type === Scene.TALK ? firstBg : fightBg})`,
+        }}
       >
         <UserStatus
           history={this.props.history}
-          // location={this.props.location}
-          // match={this.props.match}
           positionName={name}
           users={users}
           fight={this.fight}

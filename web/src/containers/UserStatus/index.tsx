@@ -8,26 +8,21 @@ import {
   List,
   ListItem,
   ListItemText,
+  Icon,
 } from '@material-ui/core'
 import { RouteComponentProps } from 'react-router-dom'
 import RightSideDrawer from '../RightSideDrawer'
 import { User } from '../../typings'
 
+const styles = require('./userStatus.scss')
+
 const initState = {
-  position: 'position1',
-  name: 'name',
+  position: '',
   panelOn: false,
-  users: [
-    {
-      addr: '0xxxx',
-    },
-  ] as User[],
 }
 /* eslint-disable */
 interface UserStatusProps {
   history: any
-  // location: any
-  // match: any
   users: string[]
   positionName: string
   fight: Function
@@ -39,19 +34,24 @@ class UserStatus extends React.Component<UserStatusProps, any> {
     this.checkIdentityContract()
   }
   public componentDidMount () {
-    // setInterval(() => {
-    //   this.getIdentityInfo()
-    // }, 1000)
+    if (process.env.NODE_ENV === 'production') {
+      this.interval = setInterval(() => {
+        this.getIdentityInfo()
+      }, 1000)
+    }
+  }
+  public componentWillUnmount () {
+    clearInterval(this.interval)
   }
 
   private getIdentityInfo = () => {
     if (window.identityContract) {
-      window.identityContract.methods
-        .name()
-        .call()
-        .then(name => {
-          this.setState({ name })
-        })
+      // window.identityContract.methods
+      //   .name()
+      //   .call()
+      //   .then(name => {
+      //     this.setState({ name })
+      //   })
     }
   }
   private checkIdentityContract = () => {
@@ -68,35 +68,55 @@ class UserStatus extends React.Component<UserStatusProps, any> {
       panelOn: !state.panelOn,
     }))
   }
-  private UserList = users => (
+  private userList = users => (
     <List>
       {users.map(user => (
-        <ListItem key={user} onClick={() => this.props.fight(user, 0)}>
+        <ListItem
+          key={user}
+          onClick={() => this.props.fight(user, 0)}
+          classes={{ root: styles.user }}
+        >
           <ListItemText primary={user} />
         </ListItem>
       ))}
     </List>
   )
+  private interval: any
   public render () {
-    const { panelOn, name } = this.state
+    const { panelOn } = this.state
     const { positionName, users } = this.props
     return (
       <React.Fragment>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="title" color="inherit">
+            <Typography
+              variant="body2"
+              color="inherit"
+              classes={{ root: styles.expand }}
+            >
               Position: {positionName}
             </Typography>
             <Divider />
-            <Typography variant="title" color="inherit">
-              Role: {name}
-            </Typography>
             <Button onClick={this.navToMap}>Map</Button>
             <Button onClick={this.togglePanel}>User List</Button>
           </Toolbar>
         </AppBar>
         <RightSideDrawer panelOn={panelOn} togglePanel={this.togglePanel}>
-          {this.UserList(users)}
+          <React.Fragment>
+            <AppBar position="static">
+              <Toolbar>
+                <Typography
+                  variant="title"
+                  color="inherit"
+                  classes={{ root: styles.expand }}
+                >
+                  Users Here
+                </Typography>
+                <Icon onClick={this.togglePanel}>close</Icon>
+              </Toolbar>
+            </AppBar>
+            {this.userList(users)}
+          </React.Fragment>
         </RightSideDrawer>
       </React.Fragment>
     )

@@ -1,0 +1,10 @@
+.expand {
+  flex: 1;
+}
+
+.user {
+  cursor: pointer;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2)
+  }
+}

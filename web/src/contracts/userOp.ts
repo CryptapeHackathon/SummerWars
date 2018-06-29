@@ -1,46 +1,10 @@
-const userOpAbi = [
+export default [
   {
     constant: false,
-    inputs: [{ name: '_job', type: 'uint8' }],
-    name: 'setJob',
-    outputs: [{ name: '', type: 'bool' }],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: 'info',
-    outputs: [{ name: '', type: 'bytes32[8]' }],
-    payable: false,
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    constant: false,
-    inputs: [{ name: '_id', type: 'uint256' }],
-    name: 'setWeapon',
-    outputs: [{ name: '', type: 'bool' }],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    constant: true,
     inputs: [
-      { name: '_to', type: 'address' },
-      { name: '_decision', type: 'uint256' },
+      { name: '_record', type: 'uint256' },
+      { name: '_id', type: 'address' },
     ],
-    name: 'process',
-    outputs: [],
-    payable: false,
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    constant: false,
-    inputs: [{ name: '_record', type: 'uint256' }],
     name: 'updateRecord',
     outputs: [{ name: '', type: 'bool' }],
     payable: false,
@@ -49,8 +13,12 @@ const userOpAbi = [
   },
   {
     constant: false,
-    inputs: [{ name: '_name', type: 'string' }],
-    name: 'setName',
+    inputs: [
+      { name: '_to', type: 'address' },
+      { name: '_decision', type: 'uint256' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'process',
     outputs: [{ name: '', type: 'bool' }],
     payable: false,
     stateMutability: 'nonpayable',
@@ -58,7 +26,10 @@ const userOpAbi = [
   },
   {
     constant: false,
-    inputs: [{ name: '_scene', type: 'address' }],
+    inputs: [
+      { name: '_scene', type: 'address' },
+      { name: '_id', type: 'address' },
+    ],
     name: 'setScene',
     outputs: [{ name: '', type: 'bool' }],
     payable: false,
@@ -67,12 +38,23 @@ const userOpAbi = [
   },
   {
     constant: false,
-    inputs: [],
-    name: 'UserOP',
-    outputs: [],
+    inputs: [{ name: '_job', type: 'uint8' }, { name: '_id', type: 'address' }],
+    name: 'setJob',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: '_weaponId', type: 'uint256' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'setWeapon',
+    outputs: [{ name: '', type: 'bool' }],
     payable: false,
     stateMutability: 'nonpayable',
     type: 'function',
   },
 ]
-export default userOpAbi
