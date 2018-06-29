@@ -20,10 +20,6 @@ contract Register is Reg {
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         firstStoryAddr = new FirstStory();
-        fightAddr = newScene(this, "fight", fightStoryAddr);
-        firstAddr = newScene(this, "first", firstStoryAddr);
-        initFightStory(fightAddr);
-        initFirstStory(firstAddr);
 
         RegisterCreated(
             userOpAddr,
@@ -33,6 +29,25 @@ contract Register is Reg {
             firstStoryAddr,
             msg.sender
         );
+    }
+
+    modifier onlyOnce {
+        require(initFlag == false);
+        _;
+    }
+
+    /// @notice init all scenes
+    function init_scenes()
+        public
+        onlyOnce
+        returns (bool)
+    {
+        fightAddr = newScene(this, "fight", fightStoryAddr);
+        firstAddr = newScene(this, "first", firstStoryAddr);
+        initFightStory(fightAddr);
+        initFirstStory(firstAddr);
+        initFlag = true;
+        InitScene(fightAddr, firstAddr);
     }
 
     /// @notice Register a new identity

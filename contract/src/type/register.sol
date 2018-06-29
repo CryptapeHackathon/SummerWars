@@ -12,6 +12,7 @@ contract Reg {
     address public firstStoryAddr;
     address public firstAddr;
     address public fightAddr;
+    bool internal initFlag;
 
     mapping (address => address) public idAddr;
 
@@ -22,6 +23,11 @@ contract Reg {
         address _fightStory,
         address _firstStory,
         address _register
+    );
+
+    event InitScene(
+        address indexed _fightAddr,
+        address indexed _firstAddr
     );
 
     event IdNewed(
