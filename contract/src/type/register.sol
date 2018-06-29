@@ -10,17 +10,21 @@ contract Reg {
     address public worldInfoAddr;
     address public fightStoryAddr;
 
+    mapping (address => address) public idAddr;
+
     event RegisterCreated(
-        address indexed _register,
         address indexed _userOp,
         address indexed _sceneOp,
-        address _worldInfo,
-        address _fightStory
+        address indexed _worldInfo,
+        address _fightStory,
+        address _register
     );
 
     event IdNewed(
-        address indexed _sender,
-        address indexed _id
+        address indexed _idAddr,
+        address indexed _id,
+        string _name,
+        address _sender
     );
 
     event SceneNewed(

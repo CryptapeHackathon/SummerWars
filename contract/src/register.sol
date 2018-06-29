@@ -20,11 +20,11 @@ contract Register is Reg {
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         RegisterCreated(
-            msg.sender,
             userOpAddr,
             sceneOpAddr,
             worldInfoAddr,
-            fightStoryAddr
+            fightStoryAddr,
+            msg.sender
         );
     }
 
@@ -36,7 +36,8 @@ contract Register is Reg {
         public 
         returns (bool)
     {
-        address idAddr = new Identity();
+        idAddr[_id] = new Identity(_id, _name);
+        IdNewed(idAddr[_id], _id, _name, msg.sender);
         return true;
     }
 

@@ -10,7 +10,9 @@ const web3 = new Web3(new Web3.providers.HttpProvider(config.remoteServer));
 const logger = log4js.getLogger();
 logger.level = 'debug';
 
-const sender = config.testSender;
+const sender = config.testAdmin;
+const quota = 999999999;
+const blockLimit = 100;
 
 const randomInt = function randomInt() {
   return Math.floor(Math.random() * 100).toString();
@@ -40,9 +42,6 @@ const getTxReceipt = function getTxReceipt(hash) {
   });
 };
 
-const quota = 999999999;
-const blockLimit = 100;
-
 const genTxParams = function genTxParams(_sender = sender) {
   return {
     privkey: _sender.privkey,
@@ -59,8 +58,6 @@ module.exports = {
   web3,
   randomInt,
   getTxReceipt,
-  quota,
-  blockLimit,
   genTxParams,
   logger,
 };
