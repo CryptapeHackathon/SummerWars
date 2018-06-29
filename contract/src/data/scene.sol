@@ -20,7 +20,8 @@ contract Scene {
 
     function Scene(
         address _owner,
-        string _name
+        string _name,
+        address _proxy
     )
         public
     {
@@ -28,6 +29,7 @@ contract Scene {
         register = Register(msg.sender);
         owner = _owner;
         name = _name;
+        proxy = _proxy;
     }
 
     modifier onlyOperator {

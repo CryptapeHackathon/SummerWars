@@ -57,8 +57,8 @@ contract UserOp {
     }
 
     // call proxy process function
-    function process(address _to, uint256 decision) {}
+    function process(address _to, uint256 _decision) public pure { _to; _decision; }
 
     // call proxy info function
-    function info() view returns (bytes32[8]) {}
+    function info() public pure returns (bytes32[8]) {}
 }

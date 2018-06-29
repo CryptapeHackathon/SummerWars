@@ -17,16 +17,24 @@ contract FightStory is Story {
 
     ///@notice Get the info
     function info(address _from) public view returns (bytes32[8]) {
+        // Just clear the warning
+        _from;
         return board;
     }
 
-    function getDatas(address a) returns (bytes32 data) {
+    function getDatas(address a)
+        public
+        view
+        returns (bytes32 data)
+    {
         Identity player = Identity(register.idAddr(a));
         uint weapon = player.weapon();
         data = keccak256(a, weapon);
     }
 
-    function process(address _from, address _to, uint256 decision) public {
+    function process(address _from, address _to, uint256 _decision) public {
+        // Just clear the warning
+        _decision;
         bytes32 from_data = getDatas(_from);
         bytes32 to_data = getDatas(_to);
 

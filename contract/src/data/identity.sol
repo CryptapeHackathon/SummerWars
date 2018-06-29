@@ -2,6 +2,7 @@ pragma solidity ^0.4.19;
 
 import "./story.sol";
 import "../register.sol";
+import "./world_info.sol";
 
 
 /// @title Identity
@@ -20,13 +21,15 @@ contract Identity {
     /// Save register's address
     function Identity(
         address _id,
-        string _name
+        string _name,
+        address _scene
     )
         public
     {
         register = Register(msg.sender);
         owner = _id;
         name = _name;
+        scene = _scene;
     }
 
     modifier onlyOperator {
@@ -80,7 +83,12 @@ contract Identity {
         onlyOwner(_owner)
         returns (bool)
     {
-        scene = _scene;  
+        // Update the world info
+        WorldInfo world = WorldInfo(register.worldInfoAddr());
+        world.userLeave(scene, owner);
+        world.userEnter(_scene, owner);
+        // Update the secene
+        scene = _scene;
         return true;
     }
 
@@ -106,7 +114,7 @@ contract Identity {
     }
 
     // call proxy info function
-    function info() public view returns (bytes32[8] info) {
+    function info() public view returns (bytes32[8]) {
         return Story(proxy).info(msg.sender);
     }
 }

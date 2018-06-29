@@ -10,6 +10,8 @@ contract Reg {
     address public worldInfoAddr;
     address public fightStoryAddr;
     address public firstStoryAddr;
+    address public firstAddr;
+    address public fightAddr;
 
     mapping (address => address) public idAddr;
 

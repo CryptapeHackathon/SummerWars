@@ -7,7 +7,7 @@ import "./data/scene.sol";
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract SceneOp {
     
-    function SceneOP() public {}
+    // function SceneOP() public {}
 
     /// @notice Set name
     function setName(string _name, address _scene)
