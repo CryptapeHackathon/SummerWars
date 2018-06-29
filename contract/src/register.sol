@@ -51,8 +51,8 @@ contract Register is Reg {
         initFirstStory(firstAddr);
         initFlag = true;
         InitScene(fightAddr, firstAddr);
-        newNPC(address(123), "jan", newsStoryAddr, firstAddr);
-        newNPC(address(321), "terry", newsStoryAddr, fightAddr);
+        newNPC(0x1, "jan", newsStoryAddr, firstAddr);
+        newNPC(0x2, "terry", newsStoryAddr, fightAddr);
     }
 
     /// @notice Register a new identity
@@ -69,7 +69,7 @@ contract Register is Reg {
         idAddr[_id] = uid;
         IdNewed(uid, _id, _name, msg.sender);
         UserOp op = UserOp(userOpAddr);
-        op.setProxy(_story);
+        op.setProxy(_story, uid);
         WorldInfo world = WorldInfo(worldInfoAddr);
         require(world.userEnter(firstAddr, _id));
         return true;
