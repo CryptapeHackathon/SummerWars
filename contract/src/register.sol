@@ -52,6 +52,7 @@ contract Register is Reg {
         initFlag = true;
         InitScene(fightAddr, firstAddr);
         newNPC(address(123), "jan", newsStoryAddr, firstAddr);
+        newNPC(address(321), "terry", newsStoryAddr, fightAddr);
     }
 
     /// @notice Register a new identity
