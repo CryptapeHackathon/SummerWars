@@ -7,16 +7,6 @@ import "./data/identity.sol";
 /// @title User operate
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract UserOp {
-    /// @notice Set Name to the identity
-    function setName(string _name, address _id)
-        public
-        returns (bool)
-    {
-        Identity id = Identity(_id);
-        id.setName(_name, msg.sender);
-        return true;
-    }
-
     /// @notice Update record
     function updateRecord(uint _record, address _id)
         public

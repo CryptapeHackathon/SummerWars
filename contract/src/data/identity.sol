@@ -11,7 +11,6 @@ contract Identity {
     
     Register register;
     address owner;
-    string public name;
     uint public record;
     uint public weapon;
     address public scene;
@@ -21,14 +20,12 @@ contract Identity {
     /// Save register's address
     function Identity(
         address _id,
-        string _name,
         address _scene
     )
         public
     {
         register = Register(msg.sender);
         owner = _id;
-        name = _name;
         scene = _scene;
     }
 
@@ -40,17 +37,6 @@ contract Identity {
     modifier onlyOwner(address _owner) {
         require(owner == _owner);
         _;
-    }
-
-    /// @notice Set Name
-    function setName(string _name, address _owner)
-        public
-        onlyOperator
-        onlyOwner(_owner)
-        returns (bool)
-    {
-        name = _name; 
-        return true;
     }
 
     /// @notice Update record
