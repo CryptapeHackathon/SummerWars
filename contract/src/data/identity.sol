@@ -17,6 +17,7 @@ contract Identity {
     address public scene;
     uint8 public job;
     address public proxy;
+    bool private npcFlag;
 
     /// Save register's address
     function Identity(
@@ -42,11 +43,20 @@ contract Identity {
         _;
     }
 
+    modifier npcOnlyOnce() {
+        if (owner < 0x100) {
+            require(npcFlag == false);
+            npcFlag = true;
+        }
+        _;
+    }
+
     /// @notice Set Name
     function setName(string _name, address _owner)
         public
         onlyOperator
         onlyOwner(_owner)
+        npcOnlyOnce
         returns (bool)
     {
         name = _name; 
@@ -58,6 +68,7 @@ contract Identity {
         public
         onlyOperator
         onlyOwner(_owner)
+        npcOnlyOnce
         returns (bool)
     {
         record = _record; 
@@ -69,6 +80,7 @@ contract Identity {
         public
         onlyOperator
         onlyOwner(_owner)
+        npcOnlyOnce
         returns (bool)
     {
         weapon = _weapon;  
@@ -81,6 +93,7 @@ contract Identity {
         public
         onlyOperator
         onlyOwner(_owner)
+        npcOnlyOnce
         returns (bool)
     {
         // Update the world info
@@ -97,6 +110,7 @@ contract Identity {
         public
         onlyOperator
         onlyOwner(_owner)
+        npcOnlyOnce
         returns (bool)
     {
         job = _job;  
@@ -104,8 +118,15 @@ contract Identity {
     }
 
     /// @notice Set proxy
-    function setProxy(address _proxy) public {
+    function setProxy(address _proxy, address _owner)
+        public
+        onlyOperator
+        onlyOwner(_owner)
+        npcOnlyOnce
+        returns (bool)
+    {
         proxy = _proxy;
+        return true;
     }
 
     // @notice call proxy process function
