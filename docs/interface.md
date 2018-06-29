@@ -30,7 +30,7 @@ contract SceneInterface {
    function process(address _to, uint256 decision);
    
    // call proxy info function
-   function info() view returns (string info);
+   function info() view returns (bytes32[8] info);
 }
 ```
 #### 场景管理
@@ -72,9 +72,9 @@ contract UserInterface {
 // fight: function process fight and save result(no need arg info); function info return board info  
 // talk: function info return dialog info; function process set user decision
 contract StoryInterface {
-   function info() view returns (string info);
+   function info(address _from) view returns (string info);
 
-   function process(address _to, uint256 decision);
+   function process(address _from, address _to, uint256 decision);
 
    // Events
    event Process(address indexed _from, address indexed _to, string _result);

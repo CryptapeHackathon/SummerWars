@@ -6,6 +6,7 @@ import "./data/scene.sol";
 import "./data/world_info.sol";
 import "./user_op.sol";
 import "./scene_op.sol";
+import "./data/fight_story.sol";
 
 
 /// @title Register: identity and scene
@@ -17,11 +18,13 @@ contract Register is Reg {
         userOpAddr = new UserOp();
         sceneOpAddr = new SceneOp();
         worldInfoAddr = new WorldInfo();
+        fightStoryAddr = new FightStory();
         RegisterCreated(
             msg.sender,
             userOpAddr,
             sceneOpAddr,
-            worldInfoAddr
+            worldInfoAddr,
+            fightStoryAddr
         );
     }
 
