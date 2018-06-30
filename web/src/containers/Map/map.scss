@@ -4,6 +4,14 @@
   left: 0; // width: 100%;
 }
 
+section.add {
+  position: absolute;
+  top: 80vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
 .point {
   width: 80px;
   height: 80px; // background: #000;

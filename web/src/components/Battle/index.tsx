@@ -22,6 +22,8 @@ const b7 = require('../../images/battle/7.jpeg')
 const b8 = require('../../images/battle/8.jpeg')
 const b9 = require('../../images/battle/9.jpeg')
 
+const actions = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
+
 /* eslint-disable */
 const hexToBytes = (hex: string) => {
   for (var bytes = [] as any[], c = 0; c < hex.length; c += 2) {
@@ -47,14 +49,8 @@ class Battle extends React.Component<any, any> {
     this.battle()
   }
   public componentWillUnmount () {
-    console.log('unmount')
+    clearInterval(this.interval)
   }
-
-  // public componentWillReceiveProps(nextProps) {
-  //   if (nextProps.user2 !== this.props.user2) {
-  //     this.battle()
-  //   }
-  // }
   public battle = () => {
     let i = 0
     const { user1, user2 } = this.props
@@ -112,7 +108,12 @@ class Battle extends React.Component<any, any> {
               {round.winner ? (
                 <React.Fragment>
                   <ListItemText primary={`${round.winner} attack`} />
-                  <img src={`b${Math.round(Math.random() * 10)}`} alt="pic" />
+                  <img
+                    src={actions[Math.round(Math.random() * 10)]}
+                    alt="pic"
+                    width={30}
+                    height={30}
+                  />
                 </React.Fragment>
               ) : (
                 <ListItemText primary="Take a rest" />
@@ -126,9 +127,3 @@ class Battle extends React.Component<any, any> {
 }
 
 export default Battle
-// {rounds.map(({ round, idx }) => (
-//   <ListItem key={`round-${idx}`}>
-//     <ListItemText primary={round.winner + 'attacked'} />
-//     <img src={'b' + Math.round(Math.random() * 10)} />
-//   </ListItem>
-// ))}

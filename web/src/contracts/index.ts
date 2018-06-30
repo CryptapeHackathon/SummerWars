@@ -1,6 +1,6 @@
 const contractInfo = {
   registerAbi: {
-    addr: '0x9c2dbd7dabd860e58cf58dec5e9fbbd420f9232b',
+    addr: '0xeb90eff94b3fa5a2641b7b8b360f1650c6eee123',
   },
 }
 export default contractInfo

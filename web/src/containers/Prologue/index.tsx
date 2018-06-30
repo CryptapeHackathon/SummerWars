@@ -18,7 +18,6 @@ import userOpAbi from '../../contracts/userOp'
 import sceneOpAbi from '../../contracts/sceneOp'
 import identityAbi from '../../contracts/identity'
 import getTxReceipt from '../../utils/getTxRecepts'
-import sign from '../../utils/sign'
 
 // const formatter = require('cita-web3/lib/web3/formatters')
 
@@ -78,7 +77,6 @@ class Prologue extends React.Component<any, any> {
 
     // gen tx
     const current = await this.props.web3.eth.getBlockNumber()
-    console.log(current)
     /* eslint-disable */
     const tx = {
       data,
@@ -91,12 +89,7 @@ class Prologue extends React.Component<any, any> {
       validUntilBlock: +current.result + 88,
     }
     /* eslint-enable */
-    console.log(tx)
-    const signedData = sign(tx)
-    const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
-      `0x${signedData}`,
-    )
-    // const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
     if (sendTxResult.result.hash) {
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
     }
@@ -227,11 +220,7 @@ class Prologue extends React.Component<any, any> {
     // show battle
 
     /* eslint-enable */
-    const signedData = sign(tx)
-    const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
-      `0x${signedData}`,
-    )
-    // const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
     if (sendTxResult.result.hash) {
       this.setState({ battleOn: true, target: userAddr })
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)

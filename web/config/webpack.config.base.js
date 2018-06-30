@@ -3,7 +3,6 @@ const webpack = require('webpack')
 
 require('dotenv').config()
 
-console.log(process.env.SERVER)
 
 module.exports = {
   output: {

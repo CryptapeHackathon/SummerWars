@@ -14,8 +14,6 @@ import {
   Tab,
   LinearProgress,
 } from '@material-ui/core'
-// import * as CitaWeb3 from 'web3'
-// const CitaWeb3 = require('web3')
 import { withWeb3, WithWeb3 } from '../../contexts/web3'
 import registerAbi from '../../contracts/register'
 import identityAbi from '../../contracts/identity'
@@ -24,9 +22,6 @@ import sceneOpAbi from '../../contracts/sceneOp'
 import userOpAbi from '../../contracts/userOp'
 import contractInfo from '../../contracts'
 import getTxReceipt from '../../utils/getTxRecepts'
-import sign from '../../utils/sign'
-
-// import inputTransactionFormatter from '../../utils/inputTransactionFormatter'
 import { Account } from '../../typings'
 
 /**
@@ -81,7 +76,6 @@ interface GameStartProps extends WithWeb3 {
 const initGameStartState = {
   selectedAccount: {} as Account,
   pwd: '',
-  // accounts: [] as Account[],
   wallet: {} as any,
   walletStatus: WalletStatus.NONE,
   action: LoginAction,
@@ -105,9 +99,6 @@ class GameStart extends React.Component<
   }
   public componentDidMount () {
     window.web3 = this.props.web3
-    // window.citaWeb3 = new CitaWeb3(
-    //   new CitaWeb3.providers.HttpProvider(process.env.SERVER),
-    // )
     this.initUserContract()
     this.initWorldContract()
     this.initSceneOpContract()
@@ -235,15 +226,12 @@ class GameStart extends React.Component<
     this.setState({ loading: false })
   }
   public createUser = async addr => {
-    console.log('create user')
     // NOTICE: GEN FUNCTION SIGNATURE
     // nervos web3
     // register.newId
     const fnSig = this.props.web3.eth.abi.encodeFunctionSignature(
       registerAbi[9],
     )
-    console.log('fnsig')
-    console.log(fnSig)
 
     // gen call data
     const params = this.props.web3.eth.abi.encodeParameters(['address'], [addr])
@@ -261,19 +249,9 @@ class GameStart extends React.Component<
       quota: 99999999,
       chainId: process.env.CHAIN_ID,
       nonce: Math.round(Math.random() * 10000),
-      // validUntilBlock: +(current || current.result) + 88,
-      // value: 100,
     }
-    // console.log(tx)
     /* eslint-enable */
-    // const signedData = sign(tx)
-    // cosnole.log('send')
-    // const signedData = sign(tx)
-    // const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
-    //   '0x' + signedData,
-    // )
     const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
-    // console.log('create id: ' + sendTxResult)
     if (sendTxResult.result.hash) {
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
     }
