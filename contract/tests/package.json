@@ -10,6 +10,9 @@
   },
   "scripts": {
     "test": "mocha test --recursive -t 60s; eslint test",
+    "unit": "mocha test/unit --recursive -t 60s; eslint test/unit",
+    "unit-register": "mocha test/unit/register.js -t 60s; eslint test/unit/register.js",
+    "unit-user-op": "mocha test/unit/user_op.js -t 60s; eslint test/unit/user_op.js",
     "lint": "eslint test",
     "lint-fix": "eslint --fix test"
   },

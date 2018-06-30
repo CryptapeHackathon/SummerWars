@@ -1,0 +1,214 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 2,
+    "pending": 0,
+    "failures": 5,
+    "start": "2018-06-30T00:10:41.089Z",
+    "end": "2018-06-30T00:15:53.867Z",
+    "duration": 312778,
+    "testsRegistered": 7,
+    "passPercent": 28.6,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "716a8e81-32bf-40a2-8ac7-f765fde3376a",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "1980c6f6-5b47-410c-adad-56faac17851c",
+        "title": "test user op contract",
+        "fullFile": "/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js",
+        "file": "/test/unit/user_op.js",
+        "beforeHooks": [
+          {
+            "title": "\"before all\" hook: should deploy a register contract",
+            "fullTitle": "test user op contract \"before all\" hook: should deploy a register contract",
+            "timedOut": false,
+            "duration": 6853,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "deployReg()\n  .then(() => {\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Deploy register contract error:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {},
+            "isRoot": false,
+            "uuid": "34a08bdc-a501-4806-87c0-203bf56dd923",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "should send a newId tx and get receipt",
+            "fullTitle": "test user op contract should send a newId tx and get receipt",
+            "timedOut": false,
+            "duration": 5554,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "const res = newId(address);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get newId receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {},
+            "isRoot": false,
+            "uuid": "985c8e06-092c-42a1-9f87-1cbafc98a692",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should have the address of user op",
+            "fullTitle": "test user op contract should have the address of user op",
+            "timedOut": false,
+            "duration": 101,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "addr = userOpAddr();\nlogger.debug(addr);\nassert.notEqual(addr, 0x0000000000000000000000000000000000000000);",
+            "err": {},
+            "isRoot": false,
+            "uuid": "46b723ca-b057-4983-b245-13cd88040f6e",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should send a update record tx and get receipt",
+            "fullTitle": "test user op contract should send a update record tx and get receipt",
+            "timedOut": true,
+            "duration": 60026,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "const res = updateRecord(1, address, addr);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get updateRecord receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {
+              "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)",
+              "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)"
+            },
+            "isRoot": false,
+            "uuid": "2eb84172-1016-407f-81b8-a21ffb53fbf3",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should send a set weapon tx and get receipt",
+            "fullTitle": "test user op contract should send a set weapon tx and get receipt",
+            "timedOut": true,
+            "duration": 60055,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "const res = setWeapon(1, address, addr);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get setWeapon receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {
+              "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)",
+              "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)"
+            },
+            "isRoot": false,
+            "uuid": "8941f516-de4b-4d93-96d1-768a3511bee4",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should send a set scene tx and get receipt",
+            "fullTitle": "test user op contract should send a set scene tx and get receipt",
+            "timedOut": true,
+            "duration": 60053,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "const res = setScene(address, address, addr);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get setScene receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {
+              "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)",
+              "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)"
+            },
+            "isRoot": false,
+            "uuid": "779b7d42-7374-4e3f-88f6-f8c817ab47f0",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should send a set job tx and get receipt",
+            "fullTitle": "test user op contract should send a set job tx and get receipt",
+            "timedOut": true,
+            "duration": 60053,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "const res = setJob(address, address, addr);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get setJob receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {
+              "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)",
+              "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)"
+            },
+            "isRoot": false,
+            "uuid": "fc1610bc-a5ae-49ae-8f76-9c9591b31091",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "should send a process tx and get receipt",
+            "fullTitle": "test user op contract should send a process tx and get receipt",
+            "timedOut": true,
+            "duration": 60053,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "const res = process(address, 1, address, addr);\ngetTxReceipt(res.hash)\n  .then((receipt) => {\n    logger.info('\\nSend ok and get receipt:\\n', receipt);\n    assert.equal(receipt.errorMessage, null, JSON.stringify(receipt.errorMessage));\n    done();\n  })\n  .catch((err) => {\n    logger.error('\\n!!!!Get process receipt err:!!!!\\n', err);\n    this.skip();\n  });",
+            "err": {
+              "message": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)",
+              "estack": "Error: Timeout of 60000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/media/kaikai/kaikai/work/github/SummerWars/contract/tests/test/unit/user_op.js)"
+            },
+            "isRoot": false,
+            "uuid": "33db6ed1-0bea-4501-9385-a83ee78d2ee7",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "985c8e06-092c-42a1-9f87-1cbafc98a692",
+          "46b723ca-b057-4983-b245-13cd88040f6e"
+        ],
+        "failures": [
+          "2eb84172-1016-407f-81b8-a21ffb53fbf3",
+          "8941f516-de4b-4d93-96d1-768a3511bee4",
+          "779b7d42-7374-4e3f-88f6-f8c817ab47f0",
+          "fc1610bc-a5ae-49ae-8f76-9c9591b31091",
+          "33db6ed1-0bea-4501-9385-a83ee78d2ee7"
+        ],
+        "pending": [],
+        "skipped": [],
+        "duration": 305895,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 60000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 60000
+  },
+  "copyrightYear": 2018
+}
