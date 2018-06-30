@@ -1,7 +1,7 @@
 pragma solidity ^0.4.19;
 
 import "./story.sol";
-import "../register.sol";
+import "./register.sol";
 import "./world_info.sol";
 
 

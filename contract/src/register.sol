@@ -1,13 +1,13 @@
 pragma solidity ^0.4.19;
 
-import "./type/register.sol";
-import "./data/identity.sol";
-import "./data/scene.sol";
-import "./data/world_info.sol";
+import "./type_register.sol";
+import "./identity.sol";
+import "./scene.sol";
+import "./world_info.sol";
 import "./user_op.sol";
 import "./scene_op.sol";
-import "./data/fight_story.sol";
-import "./data/first_story.sol";
+import "./fight_story.sol";
+import "./first_story.sol";
 
 
 /// @title Register: identity and scene

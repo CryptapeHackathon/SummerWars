@@ -1,7 +1,7 @@
 pragma solidity ^0.4.19;
 
 import "./register.sol";
-import "./data/identity.sol";
+import "./identity.sol";
 
 
 /// @title User operate

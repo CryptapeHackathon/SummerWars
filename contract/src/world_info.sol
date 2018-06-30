@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
 
-import "../address_array.sol";
+import "./address_array.sol";
 
 
 /// @title WorldInfo

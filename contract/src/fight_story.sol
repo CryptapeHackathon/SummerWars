@@ -1,7 +1,7 @@
 pragma solidity ^0.4.19;
 
 import "./story.sol";
-import "../register.sol";
+import "./register.sol";
 import "./identity.sol";
 
 contract FightStory is Story {
