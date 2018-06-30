@@ -1,0 +1,28 @@
+.map {
+  position: absolute;
+  top: 0;
+  left: 0; // width: 100%;
+}
+
+section.add {
+  position: absolute;
+  top: 80vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+.point {
+  width: 80px;
+  height: 80px; // background: #000;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  span {
+    position: absolute;
+    top: 100%;
+    color: #FFF;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

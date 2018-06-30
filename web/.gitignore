@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+# Env
+.env
+
+lib
+dist
+
+*.log
+
+.vscode

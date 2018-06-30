@@ -1,0 +1,60 @@
+export default [
+  {
+    constant: false,
+    inputs: [
+      { name: '_record', type: 'uint256' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'updateRecord',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: '_to', type: 'address' },
+      { name: '_decision', type: 'uint256' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'process',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: '_scene', type: 'address' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'setScene',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [{ name: '_job', type: 'uint8' }, { name: '_id', type: 'address' }],
+    name: 'setJob',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: '_weaponId', type: 'uint256' },
+      { name: '_id', type: 'address' },
+    ],
+    name: 'setWeapon',
+    outputs: [{ name: '', type: 'bool' }],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+]

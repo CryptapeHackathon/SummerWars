@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es6", "dom", "esnext", "es2017"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": false,
+    // "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": false,
+    "downlevelIteration": true
+  },
+  "exclude": ["node_modules", "dist", "scripts", "webpack"],
+  "types": ["typePatches"]
+}
