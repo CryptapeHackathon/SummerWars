@@ -44,6 +44,14 @@ contract UserOp {
         return true;
     }
 
+    function setProxy(address _proxy)
+        public
+        returns (bool)
+    {
+        Identity id = Identity(register.idAddr(msg.sender));
+        id.setProxy(_proxy);
+    }
+
     // call proxy process function
     function process(address _to, uint256 _decision, address _id)
         public
