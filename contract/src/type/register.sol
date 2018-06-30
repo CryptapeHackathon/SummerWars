@@ -10,6 +10,7 @@ contract Reg {
     address public worldInfoAddr;
     address public fightStoryAddr;
     address public firstStoryAddr;
+    address public newsStoryAddr;
     address public firstAddr;
     address public fightAddr;
     bool internal initFlag;

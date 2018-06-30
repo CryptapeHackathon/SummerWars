@@ -8,6 +8,7 @@ import "./user_op.sol";
 import "./scene_op.sol";
 import "./data/fight_story.sol";
 import "./data/first_story.sol";
+import "./data/news_story.sol";
 
 
 /// @title Register: identity and scene
@@ -21,6 +22,7 @@ contract Register is Reg {
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         firstStoryAddr = new FirstStory();
+        newsStoryAddr = new NewsStory();
 
         RegisterCreated(
             userOpAddr,
@@ -49,7 +51,30 @@ contract Register is Reg {
         initFirstStory(firstAddr);
         initFlag = true;
         InitScene(fightAddr, firstAddr);
+        newNPC(0x1, "jan", newsStoryAddr, firstAddr);
+        newNPC(0x2, "terry", newsStoryAddr, fightAddr);
     }
+
+    /// @notice Register a new identity
+    function newNPC(
+        address _id,
+        string _name,
+        address _story,
+        address _scene
+    )
+        public
+        returns (bool)
+    {
+        address uid = new Identity(_id, _name, _scene);
+        idAddr[_id] = uid;
+        IdNewed(uid, _id, _name, msg.sender);
+        UserOp op = UserOp(userOpAddr);
+        op.setProxy(_story, uid);
+        WorldInfo world = WorldInfo(worldInfoAddr);
+        require(world.userEnter(firstAddr, _id));
+        return true;
+    }
+
 
     /// @notice Register a new identity
     function newId(

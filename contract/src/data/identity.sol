@@ -90,8 +90,14 @@ contract Identity {
     }
 
     /// @notice Set proxy
-    function setProxy(address _proxy) public {
+    function setProxy(address _proxy, address _owner)
+        public
+        onlyOperator
+        onlyOwner(_owner)
+        returns (bool)
+    {
         proxy = _proxy;
+        return true;
     }
 
     // @notice call proxy process function
