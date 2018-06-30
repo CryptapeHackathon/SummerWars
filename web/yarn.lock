@@ -9,9 +9,9 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.11.1"
 
-"@cita/cita-web3@https://github.com/cryptape/web3.js#develop":
-  version "0.5.10"
-  resolved "https://github.com/cryptape/web3.js#cba86bd7a3c13af352680632f71754d214d27a1a"
+"@cita/cita-web3@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.npmjs.org/@cita/cita-web3/-/cita-web3-0.5.9.tgz#aff1bed6acf59b9ea84273e0e79bbfef7af843e2"
   dependencies:
     bignumber.js "git+https://github.com/frozeman/bignumber.js-nolookahead.git"
     buffer "5.0.8"

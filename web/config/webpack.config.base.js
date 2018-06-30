@@ -23,7 +23,7 @@ module.exports = {
         include: /src/,
       },
       {
-        test: /\.(png|jpg|svg|gif)$/,
+        test: /\.(png|jpg|jpeg|svg|gif)$/,
         loader: 'url-loader',
         options: {
           limit: 8192,

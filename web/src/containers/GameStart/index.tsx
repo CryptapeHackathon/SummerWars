@@ -24,7 +24,7 @@ import sceneOpAbi from '../../contracts/sceneOp'
 import userOpAbi from '../../contracts/userOp'
 import contractInfo from '../../contracts'
 import getTxReceipt from '../../utils/getTxRecepts'
-// import sign from '../../utils/sign'
+import sign from '../../utils/sign'
 
 // import inputTransactionFormatter from '../../utils/inputTransactionFormatter'
 import { Account } from '../../typings'
@@ -251,6 +251,8 @@ class GameStart extends React.Component<
 
     // gen tx
     /* eslint-disable */
+    // const current = await this.props.web3.eth.getBlockNumber()
+    // console.log(current)
     const tx = {
       data,
       to: window.userContract._address,
@@ -258,14 +260,19 @@ class GameStart extends React.Component<
       privkey: window.account.privateKey,
       quota: 99999999,
       chainId: process.env.CHAIN_ID,
-      nonce: 19999,
+      nonce: Math.round(Math.random() * 10000),
+      // validUntilBlock: +(current || current.result) + 88,
       // value: 100,
     }
+    // console.log(tx)
     /* eslint-enable */
     // const signedData = sign(tx)
     // cosnole.log('send')
+    // const signedData = sign(tx)
+    // const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
+    //   '0x' + signedData,
+    // )
     const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
-    // const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(signedData)
     // console.log('create id: ' + sendTxResult)
     if (sendTxResult.result.hash) {
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)

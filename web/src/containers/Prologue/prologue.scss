@@ -19,7 +19,8 @@
   &>div {
     &:hover {
       background: rgba(255, 255, 255, 0.2);
-      &:first-child {
+      &:first-child,
+      &:last-child {
         cursor: pointer;
         background: none;
       }

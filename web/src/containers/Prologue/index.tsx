@@ -9,6 +9,7 @@ import {
   ListItemText,
   Icon,
 } from '@material-ui/core'
+import Battle from '../../components/Battle'
 
 import UserStatus from '../UserStatus'
 import { withWeb3, WithWeb3 } from '../../contexts/web3'
@@ -17,6 +18,7 @@ import userOpAbi from '../../contracts/userOp'
 import sceneOpAbi from '../../contracts/sceneOp'
 import identityAbi from '../../contracts/identity'
 import getTxReceipt from '../../utils/getTxRecepts'
+import sign from '../../utils/sign'
 
 // const formatter = require('cita-web3/lib/web3/formatters')
 
@@ -40,6 +42,7 @@ const initDrama = {
   users: [],
   type: Scene.NONE,
   battleOn: false,
+  target: '',
 }
 
 const styles = require('./prologue.scss')
@@ -67,9 +70,6 @@ class Prologue extends React.Component<any, any> {
     )
 
     // gen call data
-    console.log('test')
-    console.log(this.state.mapId)
-    console.log(window.identityAddr)
     const params = this.props.web3.eth.abi.encodeParameters(
       ['address', 'address'],
       [this.state.mapId, window.identityAddr],
@@ -77,6 +77,8 @@ class Prologue extends React.Component<any, any> {
     const data = fnSig + params.slice(2)
 
     // gen tx
+    const current = await this.props.web3.eth.getBlockNumber()
+    console.log(current)
     /* eslint-disable */
     const tx = {
       data,
@@ -86,11 +88,16 @@ class Prologue extends React.Component<any, any> {
       quota: 99999999,
       chainId: process.env.CHAIN_ID,
       nonce: 19999,
+      validUntilBlock: +current.result + 88,
     }
     /* eslint-enable */
-    const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    console.log(tx)
+    const signedData = sign(tx)
+    const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
+      `0x${signedData}`,
+    )
+    // const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
     if (sendTxResult.result.hash) {
-      console.log('send  setScene')
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
     }
     return console.error('Send Transaction Failed')
@@ -200,6 +207,7 @@ class Prologue extends React.Component<any, any> {
       [userAddr, decision, this.state.mapId],
     )
     const data = fnSig + params.slice(2)
+    const current = await this.props.web3.eth.getBlockNumber()
 
     // gen tx
     /* eslint-disable */
@@ -210,14 +218,22 @@ class Prologue extends React.Component<any, any> {
       privkey: window.account.privateKey,
       quota: 99999999,
       chainId: process.env.CHAIN_ID,
-      nonce: 19999,
+      nonce: 'adsfasdf',
+      validUntilBlock: +current.result + 88,
     }
+
     // show battle
     this.setState({ battleOn: true })
     // show battle
+
     /* eslint-enable */
-    const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
+    const signedData = sign(tx)
+    const sendTxResult: any = await this.props.web3.eth.sendSignedTransaction(
+      `0x${signedData}`,
+    )
+    // const sendTxResult: any = await this.props.web3.eth.sendTransaction(tx)
     if (sendTxResult.result.hash) {
+      this.setState({ battleOn: true, target: userAddr })
       return getTxReceipt(this.props.web3)(sendTxResult.result.hash)
     }
     return console.error('Send Transaction Failed')
@@ -241,13 +257,21 @@ class Prologue extends React.Component<any, any> {
   )
 
   public render () {
-    const { messages, desc, step, users, name, type } = this.state
-    console.log(type)
+    const {
+      messages,
+      desc,
+      step,
+      users,
+      name,
+      type,
+      battleOn,
+      target,
+    } = this.state
     return (
       <div
         className={commonStyles.bg}
         style={{
-          backgroundImage: `url(${type === Scene.TALK ? firstBg : fightBg})`,
+          backgroundImage: `url(${type === 2 ? firstBg : fightBg})`,
         }}
       >
         <UserStatus
@@ -274,6 +298,14 @@ class Prologue extends React.Component<any, any> {
             </div>
           ))}
         </div>
+        {battleOn ? (
+          <Battle
+            user1={window.account.address}
+            user2={target}
+            battleOn={battleOn}
+            closeBattle={() => this.setState({ battleOn: false })}
+          />
+        ) : null}
       </div>
     )
   }
