@@ -1,8 +1,8 @@
 pragma solidity ^0.4.19;
 
-import "./story.sol";
+import "../story/story.sol";
 import "../register.sol";
-import "./world_info.sol";
+import "../world_info.sol";
 
 
 /// @title Identity

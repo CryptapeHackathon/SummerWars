@@ -2,23 +2,23 @@ pragma solidity ^0.4.19;
 
 import "./story.sol";
 import "../register.sol";
-import "./identity.sol";
+import "../data/identity.sol";
 
 
+/// @title First story
+/// @author ["Cryptape Technologies <contact@cryptape.com>"]
+/// @dev TODO Refactor
+///           Add modifier
 contract FirstStory is Story {
+    Register register;
+    bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
+
+    /// Constructor
     function FirstStory() public {
         register = Register(msg.sender);
     }
   
-    Register register;
-    bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
-
-    function info(address _from) public view returns (bytes32[8]) {
-        // Just clear the warning
-        _from;
-        return dialog;
-    }
-
+    ///@notice Process
     function process(address _from, address _to, uint256 decision) public {
         if (decision == 1) {
             Identity id = Identity(register.idAddr(_from));
@@ -31,6 +31,10 @@ contract FirstStory is Story {
         }
     }
 
-    // Events
-    event Process(address indexed _from, address indexed _to, string _result);
+    ///@notice Get the info
+    function info(address _from) public view returns (bytes32[8]) {
+        // Just clear the warning
+        _from;
+        return dialog;
+    }
 }

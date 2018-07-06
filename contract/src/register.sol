@@ -3,15 +3,16 @@ pragma solidity ^0.4.19;
 import "./type/register.sol";
 import "./data/identity.sol";
 import "./data/scene.sol";
-import "./data/world_info.sol";
+import "./world_info.sol";
 import "./user_op.sol";
 import "./scene_op.sol";
-import "./data/fight_story.sol";
-import "./data/first_story.sol";
+import "./story/fight_story.sol";
+import "./story/first_story.sol";
 
 
 /// @title Register: identity and scene
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
+/// @dev TODO Add scene id
 contract Register is Reg {
 
     /// @notice Contructor
@@ -38,45 +39,39 @@ contract Register is Reg {
     }
 
     /// @notice init all scenes
-    function init_scenes()
-        public
+    function initScenes()
+        external
         onlyOnce
-        returns (bool)
     {
-        fightAddr = newScene(this, "fight", fightStoryAddr);
-        firstAddr = newScene(this, "first", firstStoryAddr);
-        initFightStory(fightAddr);
-        initFirstStory(firstAddr);
+        fightAddr = _newScene(this, "fight", fightStoryAddr);
+        firstAddr = _newScene(this, "first", firstStoryAddr);
+        require(initFightStory(fightAddr));
+        require(initFirstStory(firstAddr));
         initFlag = true;
         InitScene(fightAddr, firstAddr);
     }
 
     /// @notice Register a new identity
-    function newId(
-        address _id
-    )
-        public 
-        returns (bool)
+    ///         Use msg.sender as address
+    function newId()
+        external
     {
-        idAddr[_id] = new Identity(_id, firstAddr);
-        IdNewed(idAddr[_id], _id, msg.sender);
+        idAddr[msg.sender] = new Identity(msg.sender, firstAddr);
+        IdNewed(idAddr[msg.sender], msg.sender);
         WorldInfo world = WorldInfo(worldInfoAddr);
-        require(world.userEnter(firstAddr, _id));
-        return true;
+        require(world.userEnter(firstAddr, msg.sender));
     }
 
-    /// @notice Register a new identity
+    /// @notice Register a new scene
     function newScene(
         address _owner,
         string _name,
         address _proxy
     )
-        public 
+        external
         returns (address sceneAddr)
     {
-        sceneAddr = new Scene(_owner, _name, _proxy);
-        WorldInfo world = WorldInfo(worldInfoAddr);
-        world.addScene(sceneAddr);
+        sceneAddr = _newScene(_owner, _name, _proxy);
     }
 
     /// @notice Init the first story scene
@@ -101,5 +96,19 @@ contract Register is Reg {
         op.setLocation(3, 4, _fight);
         op.setKind(2, _fight);
         return true;
+    }
+
+    /// @notice Private new scene
+    function _newScene(
+        address _owner,
+        string _name,
+        address _proxy
+    )
+        private
+        returns (address sceneAddr)
+    {
+        sceneAddr = new Scene(_owner, _name, _proxy);
+        WorldInfo world = WorldInfo(worldInfoAddr);
+        world.addScene(sceneAddr);
     }
 }

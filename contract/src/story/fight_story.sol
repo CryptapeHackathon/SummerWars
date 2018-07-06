@@ -2,36 +2,23 @@ pragma solidity ^0.4.19;
 
 import "./story.sol";
 import "../register.sol";
-import "./identity.sol";
+import "../data/identity.sol";
 
+
+/// @title Fight story
+/// @author ["Cryptape Technologies <contact@cryptape.com>"]
+/// @dev TODO Refactor
+///           Add modifier
 contract FightStory is Story {
     Register register;
     bytes32[8] board;
 
-    // Events
-    event Process(address indexed _from, address indexed _to, string _result);
-
+    /// Constructor
     function FirstStory() public {
         register = Register(msg.sender);
     }
 
-    ///@notice Get the info
-    function info(address _from) public view returns (bytes32[8]) {
-        // Just clear the warning
-        _from;
-        return board;
-    }
-
-    function getDatas(address a)
-        public
-        view
-        returns (bytes32 data)
-    {
-        Identity player = Identity(register.idAddr(a));
-        uint weapon = player.weapon();
-        data = keccak256(a, weapon);
-    }
-
+    ///@notice Process
     function process(address _from, address _to, uint256 _decision) public {
         // Just clear the warning
         _decision;
@@ -80,5 +67,23 @@ contract FightStory is Story {
             Process(_from, _to, "fail");
             board[0] = bytes32(_to);
         }
+    }
+
+    ///@notice Get the info
+    function info(address _from) public view returns (bytes32[8]) {
+        // Just clear the warning
+        _from;
+        return board;
+    }
+
+    /// @notice Get datas
+    function getDatas(address a)
+        public
+        view
+        returns (bytes32 data)
+    {
+        Identity player = Identity(register.idAddr(a));
+        uint weapon = player.weapon();
+        data = keccak256(a, weapon);
     }
 }

@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
 
-import "./story.sol";
+import "../story/story.sol";
 import "../register.sol";
 
 
@@ -11,8 +11,8 @@ contract Scene {
     Register register;
     string public name;
     string public description;
-    uint8 location_x;
-    uint8 location_y;
+    uint location_x;
+    uint location_y;
     address public proxy;
     // 0 none 1 talk 2 fight
     uint8 public kind;
@@ -43,7 +43,6 @@ contract Scene {
         _;
     }
 
-   
     /// @notice Set name
     function setName(string _name, address _owner)
         public
@@ -67,7 +66,7 @@ contract Scene {
     }
 
     /// @notice Set location
-    function setLocation(uint8 x, uint8 y, address _owner)
+    function setLocation(uint x, uint y, address _owner)
         public
         onlyOperator
         onlyOwner(_owner)
@@ -89,6 +88,7 @@ contract Scene {
         return true;
     }
 
+    /// @notice Set proxy
     function setProxy(address _proxy, address _owner)
         public
         onlyOperator
@@ -119,10 +119,11 @@ contract Scene {
         return Story(proxy).info(msg.sender);
     }
 
+    /// @notice Get the location
     function location()
         public
         view
-        returns (uint8 x, uint8 y)
+        returns (uint x, uint y)
     {
         return (location_x, location_y);
     }
