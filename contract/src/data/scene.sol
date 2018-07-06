@@ -18,6 +18,7 @@ contract Scene {
     uint8 public kind;
     address public owner;
 
+    /// Constructor
     function Scene(
         address _owner,
         string _name,
@@ -33,12 +34,12 @@ contract Scene {
     }
 
     modifier onlyOperator {
-        //require(msg.sender == register.sceneOpAddr());
+        require(msg.sender == register.sceneOpAddr());
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        //require(owner == _owner);
+        require(owner == _owner);
         _;
     }
 

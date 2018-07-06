@@ -30,12 +30,12 @@ contract Identity {
     }
 
     modifier onlyOperator {
-        //require(msg.sender == register.userOpAddr());
+        require(msg.sender == register.userOpAddr());
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        //require(owner == _owner);
+        require(owner == _owner);
         _;
     }
 
