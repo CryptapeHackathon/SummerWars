@@ -1,8 +1,8 @@
 pragma solidity ^0.4.19;
 
-import "./story.sol";
+import "../story/story.sol";
 import "../register.sol";
-import "./world_info.sol";
+import "../world_info.sol";
 
 
 /// @title Identity
@@ -30,12 +30,12 @@ contract Identity {
     }
 
     modifier onlyOperator {
-        //require(msg.sender == register.userOpAddr());
+        require(msg.sender == register.userOpAddr());
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        //require(owner == _owner);
+        require(owner == _owner);
         _;
     }
 

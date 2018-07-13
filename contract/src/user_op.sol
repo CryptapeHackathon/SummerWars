@@ -2,55 +2,70 @@ pragma solidity ^0.4.19;
 
 import "./register.sol";
 import "./data/identity.sol";
+import "./type/user_op.sol";
 
 
 /// @title User operate
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
-contract UserOp {
+contract UserOp is UserOpType {
+
+    Register register;
+
+    /// Constructor
+    function userOp() public {
+        register = Register(msg.sender);
+    }
+
     /// @notice Update record
-    function updateRecord(uint _record, address _id)
-        public
-        returns (bool)
+    function updateRecord(uint _record)
+        external 
     {
-        Identity id = Identity(_id);
+        Identity id = getId();
         id.updateRecord(_record, msg.sender);
-        return true;
+        RecordUpdated(_record,msg.sender);
     }
 
-    function setWeapon(uint256 _weaponId, address _id)
-        public
-        returns (bool)
+    /// @notice Set weapon
+    function setWeapon(uint _weaponId)
+        external
     {
-        Identity id = Identity(_id);
+        Identity id = getId();
         id.setWeapon(_weaponId, msg.sender);
-        return true;
+        WeaponSetted(_weaponId, msg.sender);
     }
-    // leave old scene enter new scene
-    function setScene(address _scene, address _id)
-        public
-        returns (bool)
+    
+    /// @notice Leave old scene enter new scene
+    function setScene(address _scene)
+        external
     {
-        Identity id = Identity(_id);
+        Identity id = getId();
         id.setScene(_scene, msg.sender);
-        return true;
+        SceneSetted(_scene, msg.sender);
     }
 
-    function setJob(uint8 _job, address _id)
-        public
-        returns (bool)
+    /// @notice Set job
+    function setJob(uint8 _job)
+        external 
     {
-        Identity id = Identity(_id);
+        Identity id = getId();
         id.setJob(_job, msg.sender);
-        return true;
+        JobSetted(_job, msg.sender);
     }
 
-    // call proxy process function
-    function process(address _to, uint256 _decision, address _id)
+    /// @notice Call proxy process function
+    function process(address _to, uint _decision)
         public
-        returns (bool)
     {
-        Identity id = Identity(_id);
+        Identity id = getId();
         id.process(_to, _decision, msg.sender);
-        return true;
+        Processed(_to, _decision, msg.sender);
+    }
+
+    /// @notice Private Get identity address of msg.sender 
+    function getId()
+        private
+        returns (Identity id)
+    {
+        return Identity(register.idAddr(msg.sender));
     }
 }

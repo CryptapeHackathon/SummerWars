@@ -32,8 +32,7 @@ contract Reg {
 
     event IdNewed(
         address indexed _idAddr,
-        address indexed _id,
-        address _sender
+        address indexed _addr
     );
 
     event SceneNewed(

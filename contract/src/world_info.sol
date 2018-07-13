@@ -1,6 +1,6 @@
 pragma solidity ^0.4.19;
 
-import "../address_array.sol";
+import "./common/address_array.sol";
 
 
 /// @title WorldInfo
@@ -11,7 +11,7 @@ contract WorldInfo {
     mapping (address => address[]) private users;
 
     /// Save register's address
-    function WorldInfo() public {}
+    // function WorldInfo() public {}
 
     /// @notice Add scene
     function addScene(address _scene)
@@ -51,8 +51,7 @@ contract WorldInfo {
         return true;
     }
 
-    // function set_name(string _name) public returns (bool) {}
-
+    /// @notice Get the users of scene
     function getUsers(address _scene)
         public
         view
