@@ -1,8 +1,7 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.24;
 
 import "../story/story.sol";
 import "../register.sol";
-
 
 /// @title Scene
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
@@ -19,7 +18,7 @@ contract Scene {
     address public owner;
 
     /// Constructor
-    function Scene(
+    constructor(
         address _owner,
         string _name,
         address _proxy
@@ -34,12 +33,12 @@ contract Scene {
     }
 
     modifier onlyOperator {
-        require(msg.sender == register.sceneOpAddr());
+        require(msg.sender == register.sceneOpAddr(), "not operator");
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        require(owner == _owner);
+        require(owner == _owner, "not owner");
         _;
     }
 

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
 import "./type/register.sol";
 import "./data/identity.sol";
@@ -15,15 +15,15 @@ import "./story/first_story.sol";
 /// @dev TODO Add scene id
 contract Register is Reg {
 
-    /// @notice Contructor
-    function Register() public {
+    /// @notice Constructor
+    constructor() public {
         userOpAddr = new UserOp();
         sceneOpAddr = new SceneOp();
         worldInfoAddr = new WorldInfo();
         fightStoryAddr = new FightStory();
         firstStoryAddr = new FirstStory();
 
-        RegisterCreated(
+        emit RegisterCreated(
             userOpAddr,
             sceneOpAddr,
             worldInfoAddr,
@@ -34,7 +34,7 @@ contract Register is Reg {
     }
 
     modifier onlyOnce {
-        require(initFlag == false);
+        require(initFlag == false, "not once");
         _;
     }
 
@@ -45,10 +45,10 @@ contract Register is Reg {
     {
         fightAddr = _newScene(this, "fight", fightStoryAddr);
         firstAddr = _newScene(this, "first", firstStoryAddr);
-        require(initFightStory(fightAddr));
-        require(initFirstStory(firstAddr));
+        require(initFightStory(fightAddr), "Init fight story failed");
+        require(initFirstStory(firstAddr), "Init fight story failed");
         initFlag = true;
-        InitScene(fightAddr, firstAddr);
+        emit InitScene(fightAddr, firstAddr);
     }
 
     /// @notice Register a new identity
@@ -57,9 +57,9 @@ contract Register is Reg {
         external
     {
         idAddr[msg.sender] = new Identity(msg.sender, firstAddr);
-        IdNewed(idAddr[msg.sender], msg.sender);
+        emit IdNewed(idAddr[msg.sender], msg.sender);
         WorldInfo world = WorldInfo(worldInfoAddr);
-        require(world.userEnter(firstAddr, msg.sender));
+        require(world.userEnter(firstAddr, msg.sender), "User enter failed");
     }
 
     /// @notice Register a new scene
@@ -79,7 +79,7 @@ contract Register is Reg {
         private
         returns (bool)
     {
-        SceneOp op = SceneOp(sceneOpAddr);        
+        SceneOp op = SceneOp(sceneOpAddr);
         op.setDescription("welcome to the Middle-earth, Please start your journey.", _first);
         op.setLocation(1, 2, _first);
         op.setKind(1, _first);
@@ -91,7 +91,7 @@ contract Register is Reg {
         private
         returns (bool)
     {
-        SceneOp op = SceneOp(sceneOpAddr);        
+        SceneOp op = SceneOp(sceneOpAddr);
         op.setDescription("Let's fight!", _fight);
         op.setLocation(3, 4, _fight);
         op.setKind(2, _fight);

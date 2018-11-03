@@ -14,20 +14,21 @@ contract FirstStory is Story {
     bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
 
     /// Constructor
-    function FirstStory() public {
+    constructor() public {
         register = Register(msg.sender);
     }
-  
+
     ///@notice Process
     function process(address _from, address _to, uint256 decision) public {
         if (decision == 1) {
             Identity id = Identity(register.idAddr(_from));
+            /* solium-disable-next-line */
             id.setWeapon(block.timestamp, _from);
-            Process(_from, _to, "get a weapon");
+            emit Process(_from, _to, "get a weapon");
         }
 
         if (decision == 2) {
-            Process(_from, _to, "no need weapon");
+            emit Process(_from, _to, "no need weapon");
         }
     }
 

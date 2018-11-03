@@ -1,5 +1,4 @@
-pragma solidity ^0.4.19;
-
+pragma solidity ^0.4.24;
 
 /// @title The data and event of sceneOp
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
@@ -29,7 +28,7 @@ contract SceneOpType {
         address indexed _scene,
         address indexed _sender
     );
-    
+
     event ProxySetted(
         address indexed _proxy,
         address indexed _scene,

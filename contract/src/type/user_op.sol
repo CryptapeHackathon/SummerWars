@@ -1,5 +1,4 @@
-pragma solidity ^0.4.19;
-
+pragma solidity ^0.4.24;
 
 /// @title The data and event of userOp
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]

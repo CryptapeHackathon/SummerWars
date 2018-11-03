@@ -2,16 +2,15 @@ pragma solidity ^0.4.19;
 
 import "./common/address_array.sol";
 
-
 /// @title WorldInfo
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract WorldInfo {
-    
+
     address[] public scenes;
     mapping (address => address[]) private users;
 
     /// Save register's address
-    // function WorldInfo() public {}
+    // constructor() public {}
 
     /// @notice Add scene
     function addScene(address _scene)
@@ -28,10 +27,10 @@ contract WorldInfo {
         public
         returns (bool)
     {
-        AddressArray.remove(_scene, scenes);  
+        AddressArray.remove(_scene, scenes);
         return true;
     }
-    
+
     /// @notice User enter
     function userEnter(address _scene, address _user)
         public
@@ -47,7 +46,7 @@ contract WorldInfo {
         public
         returns (bool)
     {
-        AddressArray.remove(_user, users[_scene]);  
+        AddressArray.remove(_user, users[_scene]);
         return true;
     }
 

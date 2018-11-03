@@ -42,7 +42,7 @@ contract FightStory is Story {
             if (from_val > to_val) {
                 lost_hp = from_attack * 256 / (256 - to_defense);
                 if (to_hp <= lost_hp) {
-                    Process(_from, _to, "win");
+                    emit Process(_from, _to, "win");
                     board[0] = bytes32(_from);
                     return;
                 }
@@ -52,7 +52,7 @@ contract FightStory is Story {
             if (from_val < to_val) {
                 lost_hp = to_attack * 256 / (256 - from_defense);
                 if (from_hp <= lost_hp) {
-                    Process(_from, _to, "fail");
+                    emit Process(_from, _to, "fail");
                     board[0] = bytes32(_to);
                     return;
                 }
@@ -61,10 +61,10 @@ contract FightStory is Story {
         }
 
         if (from_hp > to_hp) {
-            Process(_from, _to, "win");
+            emit Process(_from, _to, "win");
             board[0] = bytes32(_from);
         } else {
-            Process(_from, _to, "fail");
+            emit Process(_from, _to, "fail");
             board[0] = bytes32(_to);
         }
     }
@@ -84,6 +84,6 @@ contract FightStory is Story {
     {
         Identity player = Identity(register.idAddr(a));
         uint weapon = player.weapon();
-        data = keccak256(a, weapon);
+        data = keccak256(abi.encodePacked(a, weapon));
     }
 }

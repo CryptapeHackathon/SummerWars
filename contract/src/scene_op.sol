@@ -1,22 +1,21 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.24;
 
 import "./data/scene.sol";
 import "./type/scene_op.sol";
 
-
 /// @title Scene operate
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract SceneOp is SceneOpType {
-    
+
     // function SceneOp() public {}
 
     /// @notice Set name
     function setName(string _name, address _scene)
-        external 
+        external
     {
         Scene scene = Scene(_scene);
         scene.setName(_name, msg.sender);
-        NameSetted(_name, _scene, msg.sender);
+        emit NameSetted(_name, _scene, msg.sender);
     }
 
     /// @notice Set description
@@ -25,7 +24,7 @@ contract SceneOp is SceneOpType {
     {
         Scene scene = Scene(_scene);
         scene.setDescription(_description, msg.sender);
-        DescriptionSetted(_description, _scene, msg.sender);
+        emit DescriptionSetted(_description, _scene, msg.sender);
     }
 
     /// @notice Set location
@@ -42,7 +41,7 @@ contract SceneOp is SceneOpType {
     {
         Scene scene = Scene(_scene);
         scene.setKind(_kind, msg.sender);
-        KindSetted(_kind, _scene, msg.sender);
+        emit KindSetted(_kind, _scene, msg.sender);
     }
 
     /// @notice Set proxy
@@ -51,7 +50,7 @@ contract SceneOp is SceneOpType {
     {
         Scene scene = Scene(_scene);
         scene.setProxy(_proxy, msg.sender);
-        ProxySetted(_proxy, _scene, msg.sender);
+        emit ProxySetted(_proxy, _scene, msg.sender);
     }
 
     /// @notice Call proxy process function
@@ -60,6 +59,6 @@ contract SceneOp is SceneOpType {
     {
         Scene scene = Scene(_scene);
         scene.process(_to, _decision, msg.sender);
-        Processed(_to, _decision, _scene, msg.sender);
+        emit Processed(_to, _decision, _scene, msg.sender);
     }
 }

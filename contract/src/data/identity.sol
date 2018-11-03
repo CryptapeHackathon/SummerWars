@@ -1,14 +1,13 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.24;
 
 import "../story/story.sol";
 import "../register.sol";
 import "../world_info.sol";
 
-
 /// @title Identity
 /// @author ["Cryptape Technologies <contact@cryptape.com>"]
 contract Identity {
-    
+
     Register register;
     address owner;
     uint public record;
@@ -18,7 +17,7 @@ contract Identity {
     address public proxy;
 
     /// Save register's address
-    function Identity(
+    constructor(
         address _id,
         address _scene
     )
@@ -30,12 +29,12 @@ contract Identity {
     }
 
     modifier onlyOperator {
-        require(msg.sender == register.userOpAddr());
+        require(msg.sender == register.userOpAddr(), "not operator");
         _;
     }
 
     modifier onlyOwner(address _owner) {
-        require(owner == _owner);
+        require(owner == _owner, "not owner");
         _;
     }
 
@@ -46,7 +45,7 @@ contract Identity {
         onlyOwner(_owner)
         returns (bool)
     {
-        record = _record; 
+        record = _record;
         return true;
     }
 
@@ -57,7 +56,7 @@ contract Identity {
         onlyOwner(_owner)
         returns (bool)
     {
-        weapon = _weapon;  
+        weapon = _weapon;
         return true;
     }
 
@@ -85,7 +84,7 @@ contract Identity {
         onlyOwner(_owner)
         returns (bool)
     {
-        job = _job;  
+        job = _job;
         return true;
     }
 
