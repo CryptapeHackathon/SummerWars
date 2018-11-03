@@ -11,7 +11,11 @@ import "../data/identity.sol";
 ///           Add modifier
 contract FirstStory is Story {
     Register register;
-    bytes32[8] dialog = [bytes32("need weapon?"), bytes32("yes"), bytes32("no")];
+    bytes32[8] dialog = [
+        bytes32("need weapon?"),
+        bytes32("yes"),
+        bytes32("no")
+    ];
 
     /// Constructor
     constructor() public {

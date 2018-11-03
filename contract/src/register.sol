@@ -80,7 +80,10 @@ contract Register is Reg {
         returns (bool)
     {
         SceneOp op = SceneOp(sceneOpAddr);
-        op.setDescription("welcome to the Middle-earth, Please start your journey.", _first);
+        op.setDescription(
+            "welcome to the Middle-earth, Please start your journey.",
+            _first
+        );
         op.setLocation(1, 2, _first);
         op.setKind(1, _first);
         return true;
